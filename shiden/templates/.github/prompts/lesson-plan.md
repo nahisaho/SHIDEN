@@ -70,21 +70,21 @@
 |------|----------|---------------|------|
 | {分} | {活動内容} | {留意点} | {評価方法} |
 
-**教育理論の適用**: {TENJIN: 適用する理論と根拠}
+**教育理論の適用**: {理論名} - {適用の根拠}
 
 #### 展開（{時間}分）
 | 時間 | 学習活動 | 指導上の留意点 | 評価 |
 |------|----------|---------------|------|
 | {分} | {活動内容} | {留意点} | {評価方法} |
 
-**教育理論の適用**: {TENJIN: 適用する理論と根拠}
+**教育理論の適用**: {理論名} - {適用の根拠}
 
 #### まとめ（{時間}分）
 | 時間 | 学習活動 | 指導上の留意点 | 評価 |
 |------|----------|---------------|------|
 | {分} | {活動内容} | {留意点} | {評価方法} |
 
-**教育理論の適用**: {TENJIN: 適用する理論と根拠}
+**教育理論の適用**: {理論名} - {適用の根拠}
 ```
 
 ### 4. 評価規準
@@ -112,23 +112,31 @@
 ...
 ```
 
-## TENJIN連携
+## 教育理論データベースの活用
 
-### 推奨される理論検索
+### 理論検索コマンド
 
-```
-search_theories(category="instructional_design")
-→ 授業設計に関する理論を検索
+授業計画に適した教育理論を検索するには、以下のコマンドを使用します：
 
-recommend_theories_for_learner(
-  context="授業計画",
-  grade="{学年}",
-  subject="{教科}"
-)
-→ 学年・教科に適した理論を推薦
+```bash
+# カテゴリ別に理論を一覧
+npx shiden theories categories
 
-get_theory(id="blooms_taxonomy")
-→ Bloom's Taxonomyの詳細を取得
+# 授業設計に関する理論を検索
+npx shiden theories list --category "授業設計"
+npx shiden theories list --category "学習理論"
+
+# キーワードで理論を検索
+npx shiden theories search "学習目標"
+npx shiden theories search "動機づけ"
+npx shiden theories search "評価"
+
+# 特定の理論の詳細を取得
+npx shiden theories get blooms_taxonomy
+npx shiden theories get gagnes_nine_events
+
+# 関連する理論を取得
+npx shiden theories related blooms_taxonomy
 ```
 
 ### 適用が推奨される理論

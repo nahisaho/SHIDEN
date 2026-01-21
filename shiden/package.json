@@ -1,7 +1,7 @@
 {
   "name": "shiden",
-  "version": "0.2.0",
-  "description": "教育者向けGitHub Copilot Agent Skills - TENJIN GraphRAG連携で教育理論に基づくコンテンツ生成を支援",
+  "version": "0.3.1",
+  "description": "教育者向けGitHub Copilot Agent Skills - 175件の教育理論を内蔵、FTS5日本語検索対応",
   "keywords": [
     "github-copilot",
     "agent-skills",
@@ -39,6 +39,7 @@
     "dist/",
     "bin/",
     "templates/",
+    "src/data/",
     "AGENTS.md",
     ".github/",
     "README.md",
@@ -56,11 +57,17 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20.19.30",
     "typescript": "^5.3.0",
     "vitest": "^1.6.1"
   },
   "engines": {
     "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.6.2",
+    "chalk": "^5.6.2",
+    "commander": "^14.0.2"
   }
 }

@@ -3,10 +3,11 @@
  * @module cli
  */
 
-import { parseArgs } from 'node:util';
+import { Command } from 'commander';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createTheoriesCommand } from './commands/theories.js';
 
 // ESM でのディレクトリパス取得
 const __filename = fileURLToPath(import.meta.url);
@@ -22,24 +23,6 @@ function getVersion(): string {
     return '1.0.0';
   }
 }
-
-// ヘルプメッセージ
-const HELP_MESSAGE = `
-🎓 SHIDEN - 教育者向けGitHub Copilot Agent Skills
-
-Usage: npx shiden <command> [options]
-
-Commands:
-  init [path]    プロジェクトにSHIDEN Agent Skillsを初期化
-  -v, --version  バージョンを表示
-  -h, --help     このヘルプメッセージを表示
-
-Examples:
-  npx shiden init           現在のディレクトリに初期化
-  npx shiden init ./myproject  指定ディレクトリに初期化
-
-詳細: https://github.com/nahisaho/SHIDEN
-`;
 
 // 成功メッセージ
 function getSuccessMessage(targetDir: string): string {
@@ -159,48 +142,25 @@ function initCommand(targetPath: string = '.'): void {
 
 // メイン処理
 function main(): void {
-  try {
-    const { values, positionals } = parseArgs({
-      allowPositionals: true,
-      options: {
-        version: {
-          type: 'boolean',
-          short: 'v',
-        },
-        help: {
-          type: 'boolean',
-          short: 'h',
-        },
-      },
+  const program = new Command();
+  
+  program
+    .name('shiden')
+    .description('🎓 SHIDEN - 教育者向けGitHub Copilot Agent Skills')
+    .version(getVersion(), '-v, --version', 'バージョンを表示');
+
+  // init コマンド
+  program
+    .command('init [path]')
+    .description('プロジェクトにSHIDEN Agent Skillsを初期化')
+    .action((targetPath) => {
+      initCommand(targetPath);
     });
 
-    // バージョン表示
-    if (values.version) {
-      console.log(`shiden v${getVersion()}`);
-      return;
-    }
+  // theories サブコマンドを追加
+  program.addCommand(createTheoriesCommand());
 
-    // ヘルプ表示
-    if (values.help || positionals.length === 0) {
-      console.log(HELP_MESSAGE);
-      return;
-    }
-
-    const command = positionals[0];
-
-    switch (command) {
-      case 'init':
-        initCommand(positionals[1]);
-        break;
-      default:
-        console.error(`\n❌ 不明なコマンド: ${command}`);
-        console.log(HELP_MESSAGE);
-        process.exit(1);
-    }
-  } catch (error) {
-    console.error('エラーが発生しました:', error);
-    process.exit(1);
-  }
+  program.parse();
 }
 
 main();

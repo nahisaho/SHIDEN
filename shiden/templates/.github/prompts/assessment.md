@@ -277,23 +277,37 @@ John Biggs の構成的整合性理論に基づき、以下を確認：
 | 評価 | 批評、判断、正当化 | 評価せよ、判断せよ |
 | 創造 | 新しいものの創出、設計 | 設計せよ、提案せよ |
 
-## TENJIN連携
+## 教育理論データベースの活用
 
-### 推奨される理論検索
+### 理論検索コマンド
 
+評価設計に適した教育理論を検索するには、以下のコマンドを使用します：
+
+```bash
+# 評価に関する理論を検索
+npx shiden theories search "評価"
+npx shiden theories search "assessment"
+
+# 特定の理論の詳細を取得
+npx shiden theories get constructive_alignment
+npx shiden theories get blooms_taxonomy
+npx shiden theories get formative_assessment
+
+# 関連する理論を取得
+npx shiden theories related constructive_alignment
+
+# カテゴリ一覧から選択
+npx shiden theories categories
+npx shiden theories list --category "評価"
 ```
-get_theory(id="constructive_alignment")
-→ 構成的整合性の詳細
 
-get_theory(id="blooms_taxonomy")
-→ 認知レベルの分類
+### 主要な評価理論
 
-search_theories(category="assessment")
-→ 評価に関する理論を検索
-
-get_theory(id="formative_assessment")
-→ 形成的評価の原則
-```
+| 理論ID | 理論名 | 用途 |
+|--------|--------|------|
+| `constructive_alignment` | 構成的整合性 | 目標・指導・評価の一貫性 |
+| `blooms_taxonomy` | Bloom's Taxonomy | 認知レベル別の問題設計 |
+| `formative_assessment` | 形成的評価 | 学習過程のフィードバック |
 
 ## 次のステップ
 

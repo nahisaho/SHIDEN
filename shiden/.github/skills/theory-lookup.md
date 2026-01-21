@@ -1,283 +1,288 @@
-# 理論検索スキル（TENJIN連携）
+# 理論検索スキル（SHIDEN SQLite統合）
 
-> TENJIN GraphRAG MCP Serverと連携し、教育理論のエビデンスを取得・引用します。
+> SHIDEN内蔵のSQLite教育理論データベースから175+の教育理論を検索・取得・引用します。
 
 ## 概要
 
-このスキルは、他のスキルから呼び出され、TENJIN GraphRAGを通じて175+の教育理論を検索・取得・引用します。生成されるコンテンツにエビデンスベースの裏付けを提供します。
+このスキルは、SHIDENに内蔵された175件の教育理論を検索・取得するための機能を提供します。FTS5 trigramによる日本語全文検索とWITH RECURSIVE CTEによるグラフ走査をサポートします。
 
-## TENJIN MCP Server 連携
+**v0.3.0の重要な変更**: TENJINのDocker依存を排除し、SQLiteデータベースを直接パッケージに同梱。`npx shiden init` だけでセットアップが完了します。
 
-### 接続設定
+## CLI コマンド
 
-TENJINはMCP（Model Context Protocol）サーバーとして動作します。
-VS Codeの設定でMCPサーバーとして登録されている必要があります。
+### 基本的な使い方
 
-### 利用可能なツール
+```bash
+# カテゴリ一覧を表示
+npx shiden theories categories
 
-#### 検索ツール（Search Tools）
+# 理論を検索（FTS5 trigram - 3文字以上推奨）
+npx shiden theories search "社会的構成主義"
+npx shiden theories search "constructivism"
 
-```
-search_theories(query, category?, limit?)
-```
-- **用途**: キーワードで教育理論を検索
-- **パラメータ**:
-  - `query`: 検索キーワード（必須）
-  - `category`: カテゴリフィルタ（任意）
-  - `limit`: 結果数上限（任意、デフォルト: 5）
-- **戻り値**: 理論リスト（ID、名前、概要、関連度スコア）
+# 理論の詳細を取得
+npx shiden theories get theory-003
 
-```
-get_theory(theory_id)
-```
-- **用途**: 特定の理論の詳細を取得
-- **パラメータ**:
-  - `theory_id`: 理論ID（必須）
-- **戻り値**: 理論の完全な情報（定義、理論家、原則、応用例、出典）
+# 理論一覧を表示
+npx shiden theories list -l 10
 
+# 関連理論をグラフ走査で取得
+npx shiden theories related theory-003 -d 2
 ```
-get_theories_by_category(category)
-```
-- **用途**: カテゴリ別の理論一覧を取得
-- **パラメータ**:
-  - `category`: カテゴリ名（必須）
-- **戻り値**: 該当カテゴリの理論リスト
 
-#### 推薦ツール（Recommendation Tools）
+### コマンドリファレンス
 
-```
-recommend_theories(context, learner_profile?)
-```
-- **用途**: コンテキストに基づいて適切な理論を推薦
-- **パラメータ**:
-  - `context`: 教育コンテキスト（必須）
-  - `learner_profile`: 学習者情報（任意）
-- **戻り値**: 推薦理論リスト（推薦理由付き）
+#### `theories categories`
 
-```
-recommend_theories_for_learner(learner_type, learning_goal)
-```
-- **用途**: 学習者タイプに適した理論を推薦
-- **パラメータ**:
-  - `learner_type`: 学習者タイプ
-  - `learning_goal`: 学習目標
-- **戻り値**: 推薦理論リスト
+カテゴリ一覧と各カテゴリの理論数を表示します。
 
-```
-recommend_complementary_theories(theory_id)
-```
-- **用途**: 指定理論と組み合わせると効果的な理論を推薦
-- **パラメータ**:
-  - `theory_id`: 基準となる理論ID
-- **戻り値**: 補完的な理論リスト
+```bash
+$ npx shiden theories categories
 
-#### 分析ツール（Analysis Tools）
+📁 カテゴリ一覧 (11カテゴリ, 175理論)
 
+  learning_theory            45件 █████████
+  asian_education            27件 ██████
+  instructional_design       19件 ████
+  technology_enhanced        18件 ████
+  modern_education           14件 ███
+  social_learning            11件 ███
+  assessment                 10件 ██
+  curriculum                 10件 ██
+  developmental              10件 ██
+  motivation                 10件 ██
+  critical_alternative        1件 █
 ```
-compare_theories(theory_ids[])
-```
-- **用途**: 複数の理論を比較分析
-- **パラメータ**:
-  - `theory_ids`: 比較する理論IDの配列
-- **戻り値**: 比較表（類似点、相違点、使い分けガイド）
 
-```
-analyze_theory(theory_id, analysis_type)
-```
-- **用途**: 理論の深層分析
-- **パラメータ**:
-  - `theory_id`: 理論ID
-  - `analysis_type`: 分析タイプ（strengths, limitations, applications等）
-- **戻り値**: 分析結果
+#### `theories search <query>`
 
-```
-get_theory_applications(theory_id, context)
-```
-- **用途**: 特定コンテキストでの理論の応用例を取得
-- **パラメータ**:
-  - `theory_id`: 理論ID
-  - `context`: 適用コンテキスト
-- **戻り値**: 具体的な応用例
+FTS5 trigramによる全文検索を実行します。
 
-#### グラフ走査ツール（Graph Traversal Tools）
+**オプション**:
+- `-c, --category <category>`: カテゴリでフィルタ
+- `-l, --limit <number>`: 表示件数（デフォルト: 10）
+- `-v, --verbose`: 詳細表示
 
-```
-get_related_theories(theory_id, relation_type?)
-```
-- **用途**: 関連理論を取得
-- **パラメータ**:
-  - `theory_id`: 理論ID
-  - `relation_type`: 関係タイプ（influenced_by, influenced, similar_to等）
-- **戻り値**: 関連理論リスト
+```bash
+$ npx shiden theories search "社会的" -v
 
-```
-find_theory_path(from_id, to_id)
-```
-- **用途**: 2つの理論間の関係パスを探索
-- **パラメータ**:
-  - `from_id`: 起点理論ID
-  - `to_id`: 終点理論ID
-- **戻り値**: 理論間のパス（経由する理論と関係）
+🔍 検索結果: "社会的" (10件, 4.54ms)
 
+theory-007: Social Constructivism
+  社会的構成主義
+  Category: learning_theory
+  Description: Learning as a social process...
+  Principles: Zone of proximal development, Scaffolding...
 ```
-get_influence_chain(theory_id)
+
+**注意**: trigramインデックスのため、3文字以上のクエリを推奨します。2文字以下のクエリはLIKE検索にフォールバックします。
+
+#### `theories get <id>`
+
+理論の詳細情報を取得します。
+
+```bash
+$ npx shiden theories get theory-003
+
+📖 Social Cognitive Theory
+
+日本語名: 社会的認知理論
+カテゴリ: learning_theory
+ID: theory-003
+
+説明:
+  Triadic reciprocal interaction between behavior...
+
+説明（日本語）:
+  行動・環境・個人的要因の三者相互作用と自己効力感
+
+主要原則:
+  • Triadic reciprocal determinism
+  • Self-efficacy as central construct
+  • Self-regulation of behavior
+
+応用分野:
+  • Academic motivation interventions
+  • Health behavior change
+
+強み:
+  ✓ Comprehensive framework
+  ✓ Strong empirical support
+
+限界・制約:
+  ✗ Complexity in measurement
+  ✗ Cultural variations
 ```
-- **用途**: 理論の影響関係チェーンを取得
-- **パラメータ**:
-  - `theory_id`: 理論ID
-- **戻り値**: 影響を与えた/受けた理論のチェーン
+
+#### `theories list`
+
+理論一覧を表示します。
+
+**オプション**:
+- `-c, --category <category>`: カテゴリでフィルタ
+- `-l, --limit <number>`: 表示件数（デフォルト: 20）
+- `-o, --offset <number>`: オフセット（デフォルト: 0）
+
+```bash
+$ npx shiden theories list -c motivation -l 5
+
+📚 教育理論一覧 (5/10件)
+
+theory-029: Expectancy-Value Theory
+  期待価値理論
+  Category: motivation
+...
+```
+
+#### `theories related <id>`
+
+WITH RECURSIVE CTEによるグラフ走査で関連理論を取得します。
+
+**オプション**:
+- `-d, --depth <number>`: 走査深さ 1-3（デフォルト: 2）
+
+```bash
+$ npx shiden theories related theory-003 -d 2
+
+🔗 関連理論: Social Cognitive Theory
+
+   起点: theory-003 (深さ: 2)
+
+  └─ theory-014: Self-Efficacy Theory (derived_from)
+    └─ theory-029: Expectancy-Value Theory (complements)
+
+  2件の関連理論
+```
+
+## プログラマティックAPI
+
+TypeScript/JavaScriptからも直接利用可能です：
+
+```typescript
+import {
+  search,
+  get,
+  list,
+  categories,
+  related,
+  count,
+  closeDatabase,
+} from 'shiden/theories';
+
+// 検索
+const result = search('社会的学習', { limit: 5 });
+console.log(`${result.total}件 (${result.durationMs}ms)`);
+
+// 詳細取得
+const theory = get('theory-003');
+console.log(theory?.name_ja);
+
+// カテゴリ一覧
+const cats = categories();
+
+// 関連理論（グラフ走査）
+const rel = related('theory-003', { depth: 2 });
+
+// クリーンアップ
+closeDatabase();
+```
 
 ## カテゴリ一覧
 
-TENJINで利用可能な主なカテゴリ：
+| カテゴリ | 件数 | 説明 |
+|---------|------|------|
+| `learning_theory` | 45 | 学習理論（構成主義、行動主義など） |
+| `asian_education` | 27 | アジアの教育理論 |
+| `instructional_design` | 19 | 授業設計・教授法 |
+| `technology_enhanced` | 18 | 教育工学・ICT活用 |
+| `modern_education` | 14 | 現代教育（21世紀型スキルなど） |
+| `social_learning` | 11 | 社会的学習・協調学習 |
+| `assessment` | 10 | 評価理論 |
+| `curriculum` | 10 | カリキュラム設計 |
+| `developmental` | 10 | 発達心理学 |
+| `motivation` | 10 | 動機づけ理論 |
+| `critical_alternative` | 1 | 批判的教育学 |
 
-| カテゴリ | 説明 | 代表的な理論 |
-|---------|------|-------------|
-| `instructional_design` | 授業設計・教授法 | Gagné's Nine Events, ADDIE |
-| `learning_theory` | 学習理論 | Constructivism, Behaviorism |
-| `cognitive` | 認知心理学 | Cognitive Load Theory, Schema Theory |
-| `motivation` | 動機づけ | ARCS Model, Self-Determination Theory |
-| `assessment` | 評価理論 | Formative Assessment, Constructive Alignment |
-| `development` | 発達心理学 | Piaget, Vygotsky, Erikson |
-| `special_needs` | 特別支援教育 | UDL, Differentiated Instruction |
-| `social_emotional` | 社会情緒的学習 | SEL, Growth Mindset |
+## 関係タイプ
 
-## 主要な教育理論
+理論間の関係は以下のタイプで分類されています：
 
-### 授業設計
+| タイプ | 説明 |
+|--------|------|
+| `related_to` | 一般的な関連 |
+| `influenced_by` | 影響を受けた |
+| `influences` | 影響を与えた |
+| `builds_upon` | 基盤として構築 |
+| `derived_from` | 派生した |
+| `complements` | 補完的 |
+| `similar_to` | 類似 |
+| `contrasts_with` | 対照的 |
 
-| ID | 理論名 | 理論家 | 主な用途 |
-|----|--------|--------|----------|
-| `blooms_taxonomy` | Bloom's Taxonomy | Benjamin Bloom | 学習目標設定 |
-| `gagnes_nine_events` | Nine Events of Instruction | Robert Gagné | 授業構成 |
-| `addie_model` | ADDIE Model | - | 教材開発プロセス |
-| `arcs_model` | ARCS Model | John Keller | 動機づけ設計 |
+## 他のスキルからの呼び出し
 
-### 学習理論
-
-| ID | 理論名 | 理論家 | 主な用途 |
-|----|--------|--------|----------|
-| `constructivism` | 構成主義 | Piaget, Vygotsky | 学習観 |
-| `zone_of_proximal_development` | 最近接発達領域 | Vygotsky | 個別支援 |
-| `cognitive_load_theory` | 認知負荷理論 | Sweller | 教材設計 |
-| `schema_theory` | スキーマ理論 | Bartlett | 知識構造 |
-
-### 評価
-
-| ID | 理論名 | 理論家 | 主な用途 |
-|----|--------|--------|----------|
-| `constructive_alignment` | 構成的整合性 | John Biggs | 評価設計 |
-| `formative_assessment` | 形成的評価 | Black & Wiliam | 学習改善 |
-| `mastery_learning` | 完全習得学習 | Benjamin Bloom | 評価基準 |
-
-### 発達心理学
-
-| ID | 理論名 | 理論家 | 主な用途 |
-|----|--------|--------|----------|
-| `piagets_cognitive_development` | 認知発達理論 | Jean Piaget | 発達段階 |
-| `eriksons_psychosocial_development` | 心理社会的発達 | Erik Erikson | 生活指導 |
-| `kohlbergs_moral_development` | 道徳性発達 | Lawrence Kohlberg | 道徳教育 |
-
-### 動機づけ
-
-| ID | 理論名 | 理論家 | 主な用途 |
-|----|--------|--------|----------|
-| `growth_mindset` | 成長マインドセット | Carol Dweck | フィードバック |
-| `self_determination_theory` | 自己決定理論 | Deci & Ryan | 内発的動機づけ |
-| `expectancy_value_theory` | 期待価値理論 | Eccles | 動機づけ分析 |
-
-## 引用形式
-
-### 基本引用形式
+他のスキル（lesson-plan.md、assessment-design.md等）から理論検索を行う場合：
 
 ```markdown
-### 参照した教育理論
+### 使用する教育理論の選定
 
-#### {理論名}（{理論家名}）
-- **概要**: {理論の簡潔な説明}
-- **本コンテンツへの適用**: {どのように適用したか}
-- **参考文献**: {出典情報}
+1. コンテキストに基づいて理論を検索：
+   ```bash
+   npx shiden theories search "アクティブラーニング"
+   ```
+
+2. 推奨される理論の詳細を確認：
+   ```bash
+   npx shiden theories get theory-038
+   ```
+
+3. 関連理論も併せて検討：
+   ```bash
+   npx shiden theories related theory-038 -d 2
+   ```
 ```
 
-### インライン引用
+## データベース仕様
 
-```markdown
-この活動は**Vygotsky**の**最近接発達領域（ZPD）**理論に基づいています。
-生徒が一人では難しいが、適切な支援があればできるレベルの課題を設定しました。
-```
+- **フォーマット**: SQLite 3（better-sqlite3使用）
+- **サイズ**: 約1.5MB
+- **理論数**: 175件
+- **関係数**: 77件
+- **FTS5インデックス**: trigram tokenizer（日本語対応）
+- **データソース**: TENJIN Neo4jデータベースからエクスポート
 
-### 複数理論の組み合わせ
+## TENJIN MCP Server との比較
 
-```markdown
-### 理論的背景
+| 機能 | SHIDEN (v0.3.0) | TENJIN MCP |
+|------|-----------------|------------|
+| セットアップ | `npx shiden init` | Docker + Neo4j + ChromaDB |
+| 依存関係 | なし | Neo4j, ChromaDB, Ollama |
+| 理論数 | 175 | 175+ |
+| 検索方式 | FTS5 trigram | ベクトル検索 + GraphRAG |
+| グラフ走査 | WITH RECURSIVE | Cypher |
+| オフライン | ✅ | ❌ |
+| 推薦機能 | ❌ | ✅（LLM利用） |
+| 深層分析 | ❌ | ✅（LLM利用） |
 
-本授業計画は、以下の教育理論を統合的に適用しています：
+**推奨**:
+- **教育者・素早く始めたい方**: SHIDEN SQLite統合
+- **高度な推薦・分析が必要な方**: TENJIN MCP Server
 
-| 理論 | 適用箇所 | 効果 |
-|------|----------|------|
-| Gagné's Nine Events | 授業構成 | 効果的な学習の流れ |
-| ARCS Model | 導入・展開 | 動機づけの維持 |
-| Bloom's Taxonomy | 学習目標 | 認知レベルの明確化 |
-```
+## トラブルシューティング
 
-## エラーハンドリング
+### 検索結果が0件になる
 
-### TENJIN接続エラー
+- 3文字以上のクエリを使用してください（trigramインデックス）
+- 2文字以下のクエリはLIKE検索にフォールバックしますが、精度が下がります
 
-```markdown
-> ⚠️ **注意**: 教育理論データベース（TENJIN）への接続に問題が発生しています。
-> 
-> 一般的な教授法に基づいてコンテンツを生成しますが、特定の理論に基づいたエビデンスは含まれていません。
-> 
-> TENJINが利用可能になったら、再度生成することでエビデンス付きのコンテンツを取得できます。
-```
-
-### 理論が見つからない場合
-
-```markdown
-> 💡 **情報**: 「{検索クエリ}」に直接一致する理論は見つかりませんでした。
-> 
-> 関連する可能性のある理論：
-> - {代替理論1}
-> - {代替理論2}
-> 
-> これらの理論を参照しますか？
-```
-
-### フォールバック動作
-
-TENJIN非接続時のフォールバック：
-
-1. **一般的な教授原則を適用**
-   - 学習目標の明確化
-   - 段階的な難易度設定
-   - フィードバックの提供
-
-2. **注意書きを追加**
-   - エビデンスが限定的である旨を明記
-
-3. **再生成の提案**
-   - TENJIN接続後の再生成を案内
-
-## スキル間連携
-
-### 呼び出し元スキルとの連携
-
-| 呼び出し元 | 推奨検索 |
-|-----------|---------|
-| `lesson-plan.md` | instructional_design, blooms_taxonomy |
-| `materials.md` | gagnes_nine_events, arcs_model, cognitive_load |
-| `assessment.md` | constructive_alignment, formative_assessment |
-| `individual.md` | zone_of_proximal_development, differentiated_instruction |
-| `feedback.md` | growth_mindset, effective_feedback |
-| `guidance.md` | erikson, kohlberg, piaget, pbis |
-
-### 連携例
+### データベースが見つからない
 
 ```
-1. lesson-plan.md が theory-lookup.md を呼び出し
-2. search_theories(category="instructional_design") を実行
-3. 推薦された理論（Gagné's Nine Events 等）を取得
-4. lesson-plan.md が理論を授業構成に適用
-5. 引用情報を付与してコンテンツを完成
+Database file not found
 ```
+
+→ `npm install shiden` を再実行してください。`src/data/theories.db` が含まれているか確認してください。
+
+### 日本語検索がうまくいかない
+
+- trigramインデックスは3文字以上で最適に動作します
+- 「認知」より「認知負荷」のように具体的なクエリを使用してください

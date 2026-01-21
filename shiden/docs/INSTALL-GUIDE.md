@@ -6,7 +6,7 @@
 
 1. [前提条件](#前提条件)
 2. [クイックスタート](#クイックスタート)
-3. [TENJIN GraphRAG連携（推奨）](#tenjin-graphrag連携推奨)
+3. [教育理論CLI](#教育理論cli)
 4. [設定のカスタマイズ](#設定のカスタマイズ)
 5. [トラブルシューティング](#トラブルシューティング)
 
@@ -23,14 +23,7 @@
 | VS Code | 最新版 | - |
 | GitHub Copilot | アクティブなサブスクリプション | - |
 
-### 推奨要件（TENJIN連携用）
-
-| 要件 | バージョン | 用途 |
-|------|-----------|------|
-| Docker | 最新版 | Neo4j, ChromaDB, Redis |
-| Python | >= 3.11 | TENJIN MCP Server |
-| uv | 最新版 | Pythonパッケージ管理 |
-| Ollama | 最新版 | ローカルLLM・Embedding |
+> **Note**: v0.3.0以降、Docker/Python/外部データベースは**不要**です。175件の教育理論がSQLiteデータベースとしてパッケージに同梱されています。
 
 ---
 
@@ -63,8 +56,6 @@ npx shiden init ./my-education-project
 ```
 your-project/
 ├── AGENTS.md                    # Agent Skills エントリーポイント
-├── .vscode/
-│   └── mcp.json                 # TENJIN MCP設定
 └── .github/
     ├── prompts/                 # 教育スキルプロンプト
     │   ├── meta-prompt.md       # メタプロンプト生成
@@ -77,7 +68,7 @@ your-project/
     │
     └── skills/                  # 統合スキル
         ├── orchestrator.md      # スキルオーケストレーション
-        ├── theory-lookup.md     # TENJIN連携
+        ├── theory-lookup.md     # 教育理論検索
         └── context-manager.md   # コンテキスト管理
 ```
 
@@ -93,9 +84,9 @@ your-project/
 
 ---
 
-## TENJIN GraphRAG連携（推奨）
+## 教育理論CLI
 
-TENJIN連携により、175+の教育理論に基づいたエビデンス引用が可能になります。
+SHIDENには**175件の教育理論を内蔵**しています。CLIから直接検索・参照できます。
 
 ### アーキテクチャ
 
@@ -106,164 +97,182 @@ TENJIN連携により、175+の教育理論に基づいたエビデンス引用�
 │  │   Copilot   │────▶│  SHIDEN Agent Skills        │    │
 │  │    Chat     │     │  (.github/prompts, skills)  │    │
 │  └─────────────┘     └──────────────┬──────────────┘    │
-│                                      │ MCP Protocol     │
+│                                      │                   │
 │                      ┌───────────────▼───────────────┐  │
-│                      │      TENJIN MCP Server        │  │
-│                      │   (.vscode/mcp.json設定)      │  │
+│                      │      SHIDEN CLI               │  │
+│                      │   (npx shiden theories ...)   │  │
 │                      └───────────────┬───────────────┘  │
-└──────────────────────────────────────┼──────────────────┘
-                                       │
-     ┌─────────────┬───────────────────┼───────────────┐
-     │             │                   │               │
-     ▼             ▼                   ▼               ▼
-┌─────────┐  ┌──────────┐      ┌────────────┐   ┌─────────┐
-│  Neo4j  │  │ ChromaDB │      │   Ollama   │   │  Redis  │
-│ (Graph) │  │ (Vector) │      │ (LLM/Emb)  │   │ (Cache) │
-└─────────┘  └──────────┘      └────────────┘   └─────────┘
+│                                      │                   │
+│                      ┌───────────────▼───────────────┐  │
+│                      │   SQLite Database (内蔵)      │  │
+│                      │   175理論 + FTS5 trigram     │  │
+│                      └───────────────────────────────┘  │
+└─────────────────────────────────────────────────────────┘
 ```
 
-### セットアップ手順
+### 基本コマンド
 
-#### 1. TENJINリポジトリのクローン
+#### カテゴリ一覧
 
 ```bash
-git clone https://github.com/nahisaho/TENJIN.git
-cd TENJIN
+npx shiden theories categories
 ```
 
-#### 2. インフラ起動（Docker Compose）
+**出力例**:
+```
+📁 カテゴリ一覧 (11カテゴリ, 175理論)
+
+  learning_theory            45件 █████████
+  asian_education            27件 ██████
+  instructional_design       19件 ████
+  technology_enhanced        18件 ████
+  modern_education           14件 ███
+  ...
+```
+
+#### 理論検索（FTS5 trigram）
 
 ```bash
-# Neo4j, ChromaDB, Redisを起動
-docker-compose up -d
+# 日本語検索（3文字以上推奨）
+npx shiden theories search "社会的構成主義"
 
-# 起動確認
-docker-compose ps
+# 英語検索
+npx shiden theories search "constructivism"
+
+# カテゴリフィルタ
+npx shiden theories search "learning" -c social_learning
+
+# 詳細表示
+npx shiden theories search "動機づけ" -v
 ```
 
-**起動されるサービス**:
-
-| サービス | ポート | 用途 |
-|---------|--------|------|
-| Neo4j | 7474 (HTTP), 7687 (Bolt) | グラフデータベース |
-| ChromaDB | 8000 | ベクトルデータベース |
-| Redis | 6379 | キャッシュ |
-
-#### 3. Ollamaのセットアップ
+#### 理論詳細取得
 
 ```bash
-# Ollamaインストール（macOS/Linux）
-curl -fsSL https://ollama.com/install.sh | sh
-
-# 必要なモデルをダウンロード
-ollama pull nomic-embed-text    # Embedding用
-ollama pull qwen2.5:14b         # LLM用（または他のモデル）
+npx shiden theories get theory-003
 ```
 
-#### 4. TENJINインストール
+**出力例**:
+```
+📖 Social Cognitive Theory
+
+日本語名: 社会的認知理論
+カテゴリ: learning_theory
+ID: theory-003
+
+説明:
+  Triadic reciprocal interaction between behavior...
+
+主要原則:
+  • Triadic reciprocal determinism
+  • Self-efficacy as central construct
+
+応用分野:
+  • Academic motivation interventions
+  • Health behavior change
+```
+
+#### 理論一覧
 
 ```bash
-# uvx（推奨）
-pip install uv
-uvx --from tenjin tenjin-server
+# デフォルト20件
+npx shiden theories list
 
-# または pip
-pip install tenjin
-tenjin-server
+# カテゴリフィルタ + 件数指定
+npx shiden theories list -c motivation -l 5
+
+# ページネーション
+npx shiden theories list -l 10 -o 10
 ```
 
-#### 5. MCP設定の調整
-
-`.vscode/mcp.json`を環境に合わせて編集：
-
-```json
-{
-    "mcp": {
-        "servers": {
-            "tenjin": {
-                "command": "uvx",
-                "args": ["--from", "tenjin", "tenjin-server"],
-                "env": {
-                    "NEO4J_URI": "bolt://localhost:7687",
-                    "NEO4J_USER": "neo4j",
-                    "NEO4J_PASSWORD": "your-password",
-                    "CHROMA_PERSIST_DIR": "./data/chromadb",
-                    "EMBEDDING_PROVIDER": "ollama",
-                    "EMBEDDING_MODEL": "nomic-embed-text",
-                    "LLM_PROVIDER": "ollama",
-                    "LLM_MODEL": "qwen2.5:14b",
-                    "OLLAMA_HOST": "http://localhost:11434"
-                }
-            }
-        }
-    }
-}
-```
-
-#### 6. 教育理論データのインポート
+#### 関連理論（グラフ走査）
 
 ```bash
-cd TENJIN
+# 深さ2（デフォルト）で関連理論を探索
+npx shiden theories related theory-003
 
-# 理論データをNeo4jにインポート
-python -m tenjin.scripts.import_theories
+# 深さ3まで探索
+npx shiden theories related theory-003 -d 3
+```
 
-# ベクトルインデックスを作成
-python -m tenjin.scripts.create_embeddings
+**出力例**:
+```
+🔗 関連理論: Social Cognitive Theory
+
+   起点: theory-003 (深さ: 2)
+
+  └─ theory-014: Self-Efficacy Theory (derived_from)
+    └─ theory-029: Expectancy-Value Theory (complements)
+
+  2件の関連理論
+```
+
+### カテゴリ一覧
+
+| カテゴリ | 件数 | 説明 |
+|---------|------|------|
+| `learning_theory` | 45 | 学習理論（構成主義、行動主義など） |
+| `asian_education` | 27 | アジアの教育理論 |
+| `instructional_design` | 19 | 授業設計・教授法 |
+| `technology_enhanced` | 18 | 教育工学・ICT活用 |
+| `modern_education` | 14 | 現代教育（21世紀型スキルなど） |
+| `social_learning` | 11 | 社会的学習・協調学習 |
+| `assessment` | 10 | 評価理論 |
+| `curriculum` | 10 | カリキュラム設計 |
+| `developmental` | 10 | 発達心理学 |
+| `motivation` | 10 | 動機づけ理論 |
+| `critical_alternative` | 1 | 批判的教育学 |
+
+### プログラマティックAPI
+
+TypeScript/JavaScriptからも利用可能：
+
+```typescript
+import {
+  search,
+  get,
+  list,
+  categories,
+  related,
+  closeDatabase,
+} from 'shiden/theories';
+
+// 検索
+const result = search('社会的学習', { limit: 5 });
+console.log(`${result.total}件 (${result.durationMs}ms)`);
+
+// 詳細取得
+const theory = get('theory-003');
+console.log(theory?.name_ja);
+
+// クリーンアップ
+closeDatabase();
 ```
 
 ---
 
 ## 設定のカスタマイズ
 
-### 環境変数一覧
+### CLIオプション一覧
 
-| 変数名 | デフォルト | 説明 |
-|--------|-----------|------|
-| `NEO4J_URI` | `bolt://localhost:7687` | Neo4j接続URI |
-| `NEO4J_USER` | `neo4j` | Neo4jユーザー名 |
-| `NEO4J_PASSWORD` | `password` | Neo4jパスワード |
-| `CHROMA_PERSIST_DIR` | `./data/chromadb` | ChromaDB永続化ディレクトリ |
-| `EMBEDDING_PROVIDER` | `ollama` | Embeddingプロバイダー |
-| `EMBEDDING_MODEL` | `nomic-embed-text` | Embeddingモデル |
-| `LLM_PROVIDER` | `ollama` | LLMプロバイダー |
-| `LLM_MODEL` | `qwen2.5:14b` | LLMモデル |
-| `OLLAMA_HOST` | `http://localhost:11434` | OllamaサーバーURL |
-| `REDIS_URL` | `redis://localhost:6379` | Redisキャッシュ URL |
+| コマンド | オプション | 説明 |
+|---------|-----------|------|
+| `theories search` | `-c, --category` | カテゴリフィルタ |
+| | `-l, --limit` | 表示件数（デフォルト: 10） |
+| | `-v, --verbose` | 詳細表示 |
+| `theories list` | `-c, --category` | カテゴリフィルタ |
+| | `-l, --limit` | 表示件数（デフォルト: 20） |
+| | `-o, --offset` | オフセット |
+| `theories related` | `-d, --depth` | 走査深さ 1-3（デフォルト: 2） |
 
-### 代替LLMプロバイダー
+### FTS5 trigram検索について
 
-TENJINは[esperanto](https://github.com/lfnovo/esperanto)を使用しており、15以上のLLMプロバイダーに対応しています：
+SHIDENは日本語全文検索のためにFTS5 trigramトークナイザーを使用しています。
 
-```json
-{
-    "env": {
-        "LLM_PROVIDER": "openai",
-        "LLM_MODEL": "gpt-4o",
-        "OPENAI_API_KEY": "sk-..."
-    }
-}
-```
+- **3文字以上のクエリ**: FTS5インデックスを使用（高速）
+- **2文字以下のクエリ**: LIKE検索にフォールバック（やや遅い）
 
-対応プロバイダー：
-- `ollama` - ローカルLLM（推奨）
-- `openai` - OpenAI API
-- `anthropic` - Claude API
-- `google` - Gemini API
-- `azure` - Azure OpenAI
-- その他
-
-### リモートサーバーへの接続
-
-Ollama がリモートサーバーで動作している場合：
-
-```json
-{
-    "env": {
-        "OLLAMA_HOST": "http://192.168.1.100:11434"
-    }
-}
-```
+**推奨**: より正確な結果のために3文字以上のクエリを使用してください。
 
 ---
 
@@ -287,63 +296,43 @@ npx clear-npx-cache
 npx shiden init
 ```
 
-#### 2. TENJIN接続エラー
+#### 2. データベースが見つからない
 
 ```
-TENJIN MCP Server への接続に失敗しました
-```
-
-**確認事項**:
-1. Docker サービスが起動しているか確認
-   ```bash
-   docker-compose ps
-   ```
-2. Neo4j が正常に動作しているか確認
-   ```bash
-   curl http://localhost:7474
-   ```
-3. `.vscode/mcp.json` の設定が正しいか確認
-
-#### 3. Embeddingエラー
-
-```
-Embedding model not found
+Database file not found
 ```
 
 **解決策**:
 ```bash
-# Ollamaでモデルをダウンロード
-ollama pull nomic-embed-text
+# パッケージを再インストール
+npm install shiden
 
-# モデル一覧を確認
-ollama list
+# src/data/theories.db が含まれているか確認
+ls node_modules/shiden/src/data/
 ```
 
-#### 4. LLMレスポンスが遅い
+#### 3. 検索結果が0件
 
-**推奨モデルサイズ**:
-| メモリ | 推奨モデル |
-|--------|-----------|
-| 8GB | `qwen2.5:7b`, `llama3.2:3b` |
-| 16GB | `qwen2.5:14b`, `llama3.1:8b` |
-| 32GB+ | `qwen2.5:32b`, `llama3.1:70b` |
+**確認事項**:
+1. 3文字以上のクエリを使用しているか
+2. trigramインデックスは3文字以上で最適に動作
+3. 「認知」より「認知負荷」のように具体的なクエリを推奨
 
-#### 5. VS Code でMCPが認識されない
+#### 4. 日本語検索がうまくいかない
+
+```bash
+# 短いクエリ（2文字）- LIKE検索にフォールバック
+npx shiden theories search "学習"
+
+# 長いクエリ（3文字以上）- FTS5で高速検索
+npx shiden theories search "構成主義"
+```
+
+#### 5. VS Code でAgent Skillsが認識されない
 
 1. VS Code を再起動
 2. `Ctrl+Shift+P` → `Developer: Reload Window`
-3. GitHub Copilot拡張機能を再インストール
-
-### ログの確認
-
-```bash
-# TENJINサーバーログ
-tail -f ~/.tenjin/logs/server.log
-
-# Docker コンテナログ
-docker-compose logs -f neo4j
-docker-compose logs -f chromadb
-```
+3. AGENTS.md がプロジェクトルートにあるか確認
 
 ---
 
@@ -351,7 +340,7 @@ docker-compose logs -f chromadb
 
 - [README.md](../README.md) - 基本的な使い方
 - [AGENTS.md](../templates/AGENTS.md) - Agent Skillsの詳細
-- [theory-lookup.md](../templates/.github/skills/theory-lookup.md) - TENJIN APIリファレンス
+- [theory-lookup.md](../templates/.github/skills/theory-lookup.md) - 教育理論検索リファレンス
 
 ---
 

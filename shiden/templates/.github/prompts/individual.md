@@ -100,7 +100,7 @@
 **概要**: {戦略の説明}
 
 **理論的根拠**: 
-{TENJIN: 関連する教育理論}
+{関連する教育理論と適用の根拠}
 
 **具体的な実施方法**:
 1. {ステップ1}
@@ -116,7 +116,7 @@
 **概要**: {戦略の説明}
 
 **理論的根拠**: 
-{TENJIN: 関連する教育理論}
+{関連する教育理論と適用の根拠}
 
 **具体的な実施方法**:
 1. {ステップ1}
@@ -132,7 +132,7 @@
 **概要**: {戦略の説明}
 
 **理論的根拠**: 
-{TENJIN: 関連する教育理論}
+{関連する教育理論と適用の根拠}
 
 **具体的な実施方法**:
 1. {ステップ1}
@@ -270,26 +270,38 @@
 | 書きの困難 | 口頭回答、タイピング、穴埋め形式 |
 | 記憶の課題 | 視覚的手がかり、チェックリスト、繰り返し |
 
-## TENJIN連携
+## 教育理論データベースの活用
 
-### 推奨される理論検索
+### 理論検索コマンド
 
+個別指導計画に適した教育理論を検索するには、以下のコマンドを使用します：
+
+```bash
+# 個別支援・発達に関する理論を検索
+npx shiden theories search "個別"
+npx shiden theories search "発達"
+npx shiden theories search "特別支援"
+
+# 特定の理論の詳細を取得
+npx shiden theories get zone_of_proximal_development
+npx shiden theories get differentiated_instruction
+npx shiden theories get universal_design_for_learning
+
+# 関連する理論を取得
+npx shiden theories related zone_of_proximal_development
+
+# カテゴリ一覧から選択
+npx shiden theories categories
+npx shiden theories list --category "発達"
 ```
-get_theory(id="zone_of_proximal_development")
-→ ヴィゴツキーのZPD理論
 
-get_theory(id="differentiated_instruction")
-→ 差別化された指導
+### 主要な個別支援理論
 
-get_theory(id="universal_design_for_learning")
-→ 学びのユニバーサルデザイン
-
-search_theories(category="special_needs")
-→ 特別支援に関する理論
-
-recommend_theories(context="individual_support")
-→ 個別支援に適した理論の推薦
-```
+| 理論ID | 理論名 | 用途 |
+|--------|--------|------|
+| `zone_of_proximal_development` | 最近接発達領域 | 適切な支援レベルの設定 |
+| `differentiated_instruction` | 差別化された指導 | 学習者に合わせた指導調整 |
+| `universal_design_for_learning` | 学びのユニバーサルデザイン | 多様な学習者への対応 |
 
 ## 次のステップ
 

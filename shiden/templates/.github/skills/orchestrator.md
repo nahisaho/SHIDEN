@@ -111,15 +111,23 @@
 どちらで進めますか？または、別のリクエストをお聞かせください。
 ```
 
-### TENJIN接続エラー時
+### 教育理論の検索
 
-```
-📚 教育理論データベース（TENJIN）への接続に問題が発生しています。
+教育理論を参照する必要がある場合は、以下のコマンドを使用してください：
 
-一般的な教授法を適用してコンテンツを生成しますが、
-特定の理論に基づいたエビデンスは含まれない場合があります。
+```bash
+# 理論の検索
+npx shiden theories search "{キーワード}"
 
-このまま続行しますか？
+# 理論の詳細取得
+npx shiden theories get {理論ID}
+
+# 関連理論の取得
+npx shiden theories related {理論ID}
+
+# カテゴリ別一覧
+npx shiden theories categories
+npx shiden theories list --category "{カテゴリ名}"
 ```
 
 ### 情報不足時

@@ -257,20 +257,36 @@ Universal Design for Learningに基づき、多様な学習者に対応：
 - 選択可能な発展課題
 - 自己評価セクション
 
-## TENJIN連携
+## 教育理論データベースの活用
 
-### 推奨される理論検索
+### 理論検索コマンド
 
+教材設計に適した教育理論を検索するには、以下のコマンドを使用します：
+
+```bash
+# 授業設計・教材に関する理論を検索
+npx shiden theories search "教授設計"
+npx shiden theories search "動機づけ"
+
+# 特定の理論の詳細を取得
+npx shiden theories get gagnes_nine_events
+npx shiden theories get arcs_model
+
+# 関連する理論を取得
+npx shiden theories related gagnes_nine_events
+
+# カテゴリ一覧から選択
+npx shiden theories categories
+npx shiden theories list --category "授業設計"
 ```
-get_theory(id="gagnes_nine_events")
-→ Gagné's Nine Events の詳細と適用例
 
-get_theory(id="arcs_model")
-→ ARCS Model の詳細と動機づけ戦略
+### 主要な教材設計理論
 
-search_theories(category="instructional_materials")
-→ 教材設計に関する理論を検索
-```
+| 理論ID | 理論名 | 用途 |
+|--------|--------|------|
+| `gagnes_nine_events` | Gagné's Nine Events | 9つの教授事象に基づく教材構成 |
+| `arcs_model` | ARCS Model | 動機づけを高める教材設計 |
+| `udl` | Universal Design for Learning | 多様な学習者への対応 |
 
 ## 出力例
 

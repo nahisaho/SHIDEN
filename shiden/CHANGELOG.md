@@ -5,6 +5,55 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] - 2026-01-21
+
+### Changed
+
+- 📝 **Agent Skill 教育理論参照の更新**
+  - 全プロンプト・スキルからTENJINプレースホルダーを削除
+  - `npx shiden theories` CLIコマンドガイドを各スキルに追加
+  - 統一された「教育理論データベースの活用」セクションを導入
+
+### Fixed
+
+- lesson-plan.md: `{TENJIN: ...}` プレースホルダーを削除
+- individual.md: `{TENJIN: ...}` プレースホルダーを削除
+- orchestrator.md: TENJIN接続エラーセクションを教育理論検索ガイドに更新
+- context-manager.md: 「TENJIN検索結果」を「教育理論検索結果」に名称変更
+
+## [0.3.0] - 2026-01-21
+
+### Added
+
+- 🗄️ **内蔵SQLite教育理論データベース**
+  - 175件の教育理論を直接パッケージに同梱
+  - FTS5 trigramによる日本語全文検索対応
+  - WITH RECURSIVE CTEによるグラフ走査（関連理論探索）
+
+- 🖥️ **theories CLI コマンド**
+  - `npx shiden theories categories` - カテゴリ一覧表示
+  - `npx shiden theories search <query>` - 理論検索（FTS5）
+  - `npx shiden theories get <id>` - 理論詳細取得
+  - `npx shiden theories list` - 理論一覧表示
+  - `npx shiden theories related <id>` - 関連理論取得
+
+- 📦 **プログラマティックAPI**
+  - `shiden/theories` モジュールからTypeScript APIを公開
+  - `search()`, `get()`, `list()`, `categories()`, `related()`
+
+### Changed
+
+- **ゼロコンフィグ**: Docker/Neo4j/ChromaDB依存を排除
+- CLIフレームワークをparseArgsからCommander.jsに移行
+- theory-lookup.mdをSQLiteベースに更新
+- TENJINをオプショナル連携に変更（高度な推薦・分析用）
+
+### Technical
+
+- better-sqlite3によるSQLite接続（同期API）
+- FTS5 trigramトークナイザー（日本語N-gram検索）
+- パッケージサイズ: SQLiteデータベース約1.5MB追加
+
 ## [0.2.0] - 2026-01-21
 
 ### Added
@@ -56,3 +105,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [0.1.0]: https://github.com/nahisaho/shiden/releases/tag/v0.1.0
 [0.2.0]: https://github.com/nahisaho/shiden/releases/tag/v0.2.0
+[0.3.0]: https://github.com/nahisaho/shiden/releases/tag/v0.3.0

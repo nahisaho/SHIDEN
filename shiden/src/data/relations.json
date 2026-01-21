@@ -1,0 +1,464 @@
+[
+  {
+    "source_id": "theory-001",
+    "target_id": "theory-002",
+    "relation_type": "influences",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-002",
+    "target_id": "theory-003",
+    "relation_type": "builds_upon",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-003",
+    "target_id": "theory-014",
+    "relation_type": "derived_from",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-005",
+    "target_id": "theory-006",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-006",
+    "target_id": "theory-007",
+    "relation_type": "influences",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-006",
+    "target_id": "theory-024",
+    "relation_type": "similar_to",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-007",
+    "target_id": "theory-011",
+    "relation_type": "derived_from",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-008",
+    "target_id": "theory-032",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-009",
+    "target_id": "theory-020",
+    "relation_type": "similar_to",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-009",
+    "target_id": "theory-089",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-010",
+    "target_id": "theory-006",
+    "relation_type": "influences",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-010",
+    "target_id": "theory-012",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-011",
+    "target_id": "theory-009",
+    "relation_type": "influences",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-013",
+    "target_id": "theory-012",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-014",
+    "target_id": "theory-029",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-019",
+    "target_id": "theory-060",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-020",
+    "target_id": "theory-024",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-020",
+    "target_id": "theory-111",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-022",
+    "target_id": "theory-021",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-023",
+    "target_id": "theory-021",
+    "relation_type": "influences",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-024",
+    "target_id": "theory-111",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-025",
+    "target_id": "theory-027",
+    "relation_type": "influences",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-026",
+    "target_id": "theory-010",
+    "relation_type": "applies_to",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-031",
+    "target_id": "theory-029",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-032",
+    "target_id": "theory-030",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-033",
+    "target_id": "theory-034",
+    "relation_type": "contrasts_with",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-033",
+    "target_id": "theory-037",
+    "relation_type": "similar_to",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-035",
+    "target_id": "theory-128",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-036",
+    "target_id": "theory-035",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-038",
+    "target_id": "theory-109",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-040",
+    "target_id": "theory-091",
+    "relation_type": "derived_from",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-041",
+    "target_id": "theory-007",
+    "relation_type": "derived_from",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-042",
+    "target_id": "theory-109",
+    "relation_type": "applies_to",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-043",
+    "target_id": "theory-002",
+    "relation_type": "applies_to",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-044",
+    "target_id": "theory-009",
+    "relation_type": "applies_to",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-045",
+    "target_id": "theory-046",
+    "relation_type": "influences",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-046",
+    "target_id": "theory-134",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-047",
+    "target_id": "theory-045",
+    "relation_type": "influenced_by",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-051",
+    "target_id": "theory-050",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-056",
+    "target_id": "theory-063",
+    "relation_type": "influences",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-057",
+    "target_id": "theory-060",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-058",
+    "target_id": "theory-057",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-061",
+    "target_id": "theory-062",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-065",
+    "target_id": "theory-019",
+    "relation_type": "similar_to",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-067",
+    "target_id": "theory-068",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-069",
+    "target_id": "theory-101",
+    "relation_type": "applies_to",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-072",
+    "target_id": "theory-073",
+    "relation_type": "influences",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-074",
+    "target_id": "theory-018",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-074",
+    "target_id": "theory-157",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-075",
+    "target_id": "theory-076",
+    "relation_type": "derived_from",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-076",
+    "target_id": "theory-161",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-077",
+    "target_id": "theory-078",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-084",
+    "target_id": "theory-071",
+    "relation_type": "derived_from",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-085",
+    "target_id": "theory-001",
+    "relation_type": "applies_to",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-087",
+    "target_id": "theory-071",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-088",
+    "target_id": "theory-001",
+    "relation_type": "influences",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-097",
+    "target_id": "theory-010",
+    "relation_type": "extends",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-098",
+    "target_id": "theory-007",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-099",
+    "target_id": "theory-008",
+    "relation_type": "influences",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-102",
+    "target_id": "theory-172",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-104",
+    "target_id": "theory-105",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-105",
+    "target_id": "theory-023",
+    "relation_type": "derived_from",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-109",
+    "target_id": "theory-039",
+    "relation_type": "derived_from",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-118",
+    "target_id": "theory-008",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-122",
+    "target_id": "theory-030",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-123",
+    "target_id": "theory-032",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-125",
+    "target_id": "theory-011",
+    "relation_type": "applies_to",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-129",
+    "target_id": "theory-040",
+    "relation_type": "derived_from",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-131",
+    "target_id": "theory-007",
+    "relation_type": "extends",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-149",
+    "target_id": "theory-118",
+    "relation_type": "applies_to",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-153",
+    "target_id": "theory-006",
+    "relation_type": "extends",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-156",
+    "target_id": "theory-117",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-158",
+    "target_id": "theory-157",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-159",
+    "target_id": "theory-064",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-160",
+    "target_id": "theory-008",
+    "relation_type": "complements",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-164",
+    "target_id": "theory-077",
+    "relation_type": "extends",
+    "weight": 1.0
+  },
+  {
+    "source_id": "theory-173",
+    "target_id": "theory-170",
+    "relation_type": "derived_from",
+    "weight": 1.0
+  }
+]

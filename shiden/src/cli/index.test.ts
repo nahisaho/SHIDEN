@@ -33,14 +33,15 @@ describe('SHIDEN CLI', () => {
       const output = execSync(`node ${CLI_PATH} --version`, {
         encoding: 'utf-8',
       });
-      expect(output).toMatch(/shiden v\d+\.\d+\.\d+/);
+      // Commander.js outputs just the version number
+      expect(output).toMatch(/\d+\.\d+\.\d+/);
     });
 
     it('should display version with short flag', () => {
       const output = execSync(`node ${CLI_PATH} -v`, {
         encoding: 'utf-8',
       });
-      expect(output).toMatch(/shiden v\d+\.\d+\.\d+/);
+      expect(output).toMatch(/\d+\.\d+\.\d+/);
     });
   });
 

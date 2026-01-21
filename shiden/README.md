@@ -4,14 +4,15 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **SHIDEN**（紫電）は、教育者のためのGitHub Copilot Agent Skillsパッケージです。  
-TENJIN GraphRAGと連携し、175+の教育理論に基づいたエビデンスベースの教育コンテンツ作成を支援します。
+**175件の教育理論を内蔵**し、エビデンスベースの教育コンテンツ作成を支援します。
 
 ## ✨ 特徴
 
 - 🎯 **6つのユースケーススキル** - 授業計画、教材、評価、個別指導、フィードバック、生活指導
 - 🧠 **メタプロンプト生成** - 曖昧なリクエストを構造化し、最適なコンテンツを生成
-- 📚 **TENJIN GraphRAG連携** - 175+の教育理論に基づくエビデンス引用
+- 📚 **175件の教育理論を内蔵** - FTS5 trigramで日本語全文検索対応（v0.3.0 NEW!）
 - 🔄 **スキルオーケストレーション** - 複数スキルの自動連携
+- 🚀 **ゼロコンフィグ** - Docker不要、インストール即利用可能（v0.3.0 NEW!）
 
 ## 🚀 クイックスタート（3ステップ）
 
@@ -40,6 +41,39 @@ VS Codeでプロジェクトを開き、GitHub Copilot Chatで以下のように
 @workspace 中学2年生の数学で「一次関数」の授業計画を作成してください
 ```
 
+## 🆕 v0.3.0: 教育理論CLI
+
+**175件の教育理論をSQLiteデータベースとして内蔵**。Docker/外部依存なしで即座に利用可能です。
+
+```bash
+# カテゴリ一覧
+npx shiden theories categories
+
+# 理論を検索（日本語対応）
+npx shiden theories search "社会的構成主義"
+
+# 理論の詳細を取得
+npx shiden theories get theory-003
+
+# 関連理論をグラフ走査
+npx shiden theories related theory-003 -d 2
+```
+
+### カテゴリ一覧
+
+| カテゴリ | 件数 | 説明 |
+|---------|------|------|
+| `learning_theory` | 45 | 学習理論（構成主義、行動主義など） |
+| `asian_education` | 27 | アジアの教育理論 |
+| `instructional_design` | 19 | 授業設計・教授法 |
+| `technology_enhanced` | 18 | 教育工学・ICT活用 |
+| `modern_education` | 14 | 現代教育（21世紀型スキルなど） |
+| `social_learning` | 11 | 社会的学習・協調学習 |
+| `assessment` | 10 | 評価理論 |
+| `curriculum` | 10 | カリキュラム設計 |
+| `developmental` | 10 | 発達心理学 |
+| `motivation` | 10 | 動機づけ理論 |
+
 ## 📖 6つのユースケーススキル
 
 | スキル | 説明 | 例 |
@@ -51,15 +85,13 @@ VS Codeでプロジェクトを開き、GitHub Copilot Chatで以下のように
 | **フィードバック** | Growth Mindsetに基づく振り返り支援 | 「この作文にフィードバックを」 |
 | **生活指導案** | 発達段階を考慮した指導案 | 「友人関係のトラブルへの対応を」 |
 
-## 🔗 TENJIN GraphRAG連携
+## 🔗 TENJIN GraphRAG連携（オプション）
 
-SHIDENは[TENJIN](https://github.com/nahisaho/tenjin)と連携し、教育理論のエビデンスを自動引用します。
+より高度な推薦・分析機能が必要な場合は、[TENJIN](https://github.com/nahisaho/TENJIN) MCP Serverと連携できます。
 
-### TENJINセットアップ（推奨）
+> **v0.3.0 Note**: 基本的な理論検索はSHIDEN内蔵のSQLiteデータベースで動作します。TENJINはオプションです。
 
-`npx shiden init` 実行後、`.vscode/mcp.json` がプロジェクトにコピーされます。TENJINを使用するには以下の準備が必要です：
-
-#### 1. インフラ起動（Docker）
+### TENJINセットアップ
 
 ```bash
 # TENJINリポジトリをクローン
@@ -68,39 +100,26 @@ cd TENJIN
 
 # Neo4j + ChromaDB + Redisを起動
 docker-compose up -d
-```
 
-#### 2. TENJINインストール
-
-```bash
-# uvx（推奨）
+# TENJINインストール
 uvx tenjin-server
-
-# または pip
-pip install tenjin
 ```
 
-#### 3. MCP設定の調整
+### SHIDEN vs TENJIN 比較
 
-`.vscode/mcp.json` の環境変数を環境に合わせて調整してください：
+| 機能 | SHIDEN (v0.3.0) | TENJIN MCP |
+|------|-----------------|------------|
+| セットアップ | `npx shiden init` | Docker + Neo4j + ChromaDB |
+| 依存関係 | **なし** | Neo4j, ChromaDB, Ollama |
+| 理論数 | 175 | 175+ |
+| 検索方式 | FTS5 trigram | ベクトル検索 + GraphRAG |
+| オフライン | ✅ | ❌ |
+| 推薦機能 | ❌ | ✅（LLM利用） |
+| 深層分析 | ❌ | ✅（LLM利用） |
 
-```json
-{
-  "mcp": {
-    "servers": {
-      "tenjin": {
-        "command": "uvx",
-        "args": ["--from", "tenjin", "tenjin-server"],
-        "env": {
-          "NEO4J_URI": "bolt://localhost:7687",
-          "NEO4J_PASSWORD": "your-password",
-          "OLLAMA_HOST": "http://localhost:11434"
-        }
-      }
-    }
-  }
-}
-```
+**推奨**:
+- **教育者・素早く始めたい方**: SHIDEN のみ
+- **高度な推薦・分析が必要な方**: SHIDEN + TENJIN
 
 ### 連携される理論の例
 
@@ -140,11 +159,12 @@ your-project/
 # Agent Skillsファイルをプロジェクトにコピー
 npx shiden init
 
-# 上書き確認なしで初期化
-npx shiden init --force
-
-# コピー対象のプレビュー（実行なし）
-npx shiden init --dry-run
+# 教育理論CLI
+npx shiden theories categories       # カテゴリ一覧
+npx shiden theories search "キーワード"  # 検索
+npx shiden theories get <id>         # 詳細取得
+npx shiden theories list             # 一覧
+npx shiden theories related <id>     # 関連理論
 
 # バージョン表示
 npx shiden -v
@@ -159,7 +179,6 @@ npx shiden -h
 
 - Node.js >= 20.0.0
 - VS Code + GitHub Copilot拡張機能
-- （推奨）TENJIN MCP Server（教育理論連携用）
 
 ## 📄 ライセンス
 
