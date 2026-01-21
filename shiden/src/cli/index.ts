@@ -33,19 +33,16 @@ function getSuccessMessage(targetDir: string): string {
   ${targetDir}/AGENTS.md              - Agent Skills エントリーポイント
   ${targetDir}/.github/prompts/       - 教育スキルプロンプト
   ${targetDir}/.github/skills/        - 統合スキル
-  ${targetDir}/.vscode/mcp.json       - TENJIN MCP設定
 
 🚀 次のステップ:
   1. VS Code で ${targetDir} を開く
   2. GitHub Copilot Chat を起動
   3. @workspace に質問する（例: 「中学2年の数学の授業計画を作成して」）
 
-💡 TENJIN GraphRAG 連携（推奨）:
-  175+の教育理論を活用するには、以下のセットアップが必要です：
-  1. Docker で Neo4j + ChromaDB を起動
-  2. uvx または pip で TENJIN をインストール
-  3. .vscode/mcp.json の環境変数を調整
-  詳細: https://github.com/nahisaho/TENJIN
+💡 教育理論の活用:
+  175件の教育理論が内蔵されています。以下のコマンドで検索できます：
+  npx shiden theories search "構成主義"
+  npx shiden theories categories
 
 📖 ドキュメント: https://github.com/nahisaho/SHIDEN
 `;
@@ -125,14 +122,6 @@ function initCommand(targetPath: string = '.'): void {
       console.log(`  ✓ .github/skills/`);
     }
 
-    // .vscode/mcp.json をコピー（TENJIN MCP設定）
-    const mcpSrc = path.join(templatesDir, '.vscode', 'mcp.json');
-    const mcpDest = path.join(targetDir, '.vscode', 'mcp.json');
-    if (fs.existsSync(mcpSrc)) {
-      copyFile(mcpSrc, mcpDest);
-      console.log(`  ✓ .vscode/mcp.json`);
-    }
-
     console.log(getSuccessMessage(targetDir));
   } catch (error) {
     console.error(`\n❌ 初期化中にエラーが発生しました:`, error);
@@ -193,15 +182,6 @@ function updateCommand(targetPath: string = '.'): void {
       updatedCount++;
     }
 
-    // .vscode/mcp.json を更新
-    const mcpSrc = path.join(templatesDir, '.vscode', 'mcp.json');
-    const mcpDest = path.join(targetDir, '.vscode', 'mcp.json');
-    if (fs.existsSync(mcpSrc)) {
-      copyFile(mcpSrc, mcpDest);
-      console.log(`  ✓ .vscode/mcp.json を更新`);
-      updatedCount++;
-    }
-
     console.log(`
 ✅ SHIDEN Agent Skills を v${currentVersion} に更新しました！
 
@@ -209,7 +189,6 @@ function updateCommand(targetPath: string = '.'): void {
   - AGENTS.md
   - .github/prompts/
   - .github/skills/
-  - .vscode/mcp.json
 
 💡 ヒント: VS Code を再起動すると変更が反映されます。
 `);

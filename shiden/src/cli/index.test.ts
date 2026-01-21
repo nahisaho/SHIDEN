@@ -112,16 +112,12 @@ describe('SHIDEN CLI', () => {
       }
     });
 
-    it('should create TENJIN MCP configuration', () => {
+    it('should not create .vscode directory (TENJIN MCP removed)', () => {
       execSync(`node ${CLI_PATH} init ${tempDir}`, { encoding: 'utf-8' });
 
+      // .vscode/mcp.json は作成されない（TENJIN MCP設定は削除済み）
       const mcpPath = path.join(tempDir, '.vscode', 'mcp.json');
-      expect(fs.existsSync(mcpPath)).toBe(true);
-
-      // MCP設定の内容を確認
-      const mcpContent = JSON.parse(fs.readFileSync(mcpPath, 'utf-8'));
-      expect(mcpContent.mcp.servers.tenjin).toBeDefined();
-      expect(mcpContent.mcp.servers.tenjin.command).toBe('uvx');
+      expect(fs.existsSync(mcpPath)).toBe(false);
     });
   });
 
