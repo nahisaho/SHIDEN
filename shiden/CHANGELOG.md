@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.4] - 2026-01-22
+
+### Added
+
+- 🔄 **update/upgrade コマンドを追加**
+  - `npx shiden update` - SHIDEN Agent Skillsを最新版に更新
+  - `npx shiden upgrade` - updateのエイリアス
+  - npm update後のスキルファイル更新が容易に
+  - 更新後のバージョンと更新ファイル数を表示
+
 ## [0.3.3] - 2026-01-22
 
 ### Fixed

@@ -33,6 +33,18 @@ npx shiden init
 - `.github/prompts/` - スキル定義ファイル
 - `.github/skills/` - 統合スキルファイル
 
+### 🔄 スキルの更新
+
+SHIDENを更新した後は、以下のコマンドでスキルファイルも更新してください：
+
+```bash
+# npm パッケージを更新
+npm update shiden
+
+# スキルファイルを更新
+npx shiden update
+```
+
 ### Step 3: 使用開始
 
 VS Codeでプロジェクトを開き、GitHub Copilot Chatで以下のように話しかけてください：

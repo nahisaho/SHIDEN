@@ -140,6 +140,85 @@ function initCommand(targetPath: string = '.'): void {
   }
 }
 
+// update/upgrade コマンド
+function updateCommand(targetPath: string = '.'): void {
+  const targetDir = path.resolve(process.cwd(), targetPath);
+  const templatesDir = getTemplatesDir();
+  const currentVersion = getVersion();
+
+  console.log(`\n🔄 SHIDEN Agent Skills を更新します (v${currentVersion})...\n`);
+
+  // テンプレートディレクトリの存在確認
+  if (!fs.existsSync(templatesDir)) {
+    console.error(`❌ テンプレートディレクトリが見つかりません: ${templatesDir}`);
+    console.error(`   パッケージが正しくインストールされているか確認してください。`);
+    process.exit(1);
+  }
+
+  // 初期化済みか確認
+  const agentsMdPath = path.join(targetDir, 'AGENTS.md');
+  if (!fs.existsSync(agentsMdPath)) {
+    console.error(`❌ このディレクトリにSHIDENが初期化されていません。`);
+    console.error(`   まず 'npx shiden init' を実行してください。`);
+    process.exit(1);
+  }
+
+  let updatedCount = 0;
+
+  try {
+    // AGENTS.md を更新
+    const agentsSrc = path.join(templatesDir, 'AGENTS.md');
+    const agentsDest = path.join(targetDir, 'AGENTS.md');
+    if (fs.existsSync(agentsSrc)) {
+      copyFile(agentsSrc, agentsDest);
+      console.log(`  ✓ AGENTS.md を更新`);
+      updatedCount++;
+    }
+
+    // .github/prompts/ を更新
+    const promptsSrc = path.join(templatesDir, '.github', 'prompts');
+    const promptsDest = path.join(targetDir, '.github', 'prompts');
+    if (fs.existsSync(promptsSrc)) {
+      copyDirRecursive(promptsSrc, promptsDest);
+      console.log(`  ✓ .github/prompts/ を更新`);
+      updatedCount++;
+    }
+
+    // .github/skills/ を更新
+    const skillsSrc = path.join(templatesDir, '.github', 'skills');
+    const skillsDest = path.join(targetDir, '.github', 'skills');
+    if (fs.existsSync(skillsSrc)) {
+      copyDirRecursive(skillsSrc, skillsDest);
+      console.log(`  ✓ .github/skills/ を更新`);
+      updatedCount++;
+    }
+
+    // .vscode/mcp.json を更新
+    const mcpSrc = path.join(templatesDir, '.vscode', 'mcp.json');
+    const mcpDest = path.join(targetDir, '.vscode', 'mcp.json');
+    if (fs.existsSync(mcpSrc)) {
+      copyFile(mcpSrc, mcpDest);
+      console.log(`  ✓ .vscode/mcp.json を更新`);
+      updatedCount++;
+    }
+
+    console.log(`
+✅ SHIDEN Agent Skills を v${currentVersion} に更新しました！
+
+📁 更新されたファイル: ${updatedCount}件
+  - AGENTS.md
+  - .github/prompts/
+  - .github/skills/
+  - .vscode/mcp.json
+
+💡 ヒント: VS Code を再起動すると変更が反映されます。
+`);
+  } catch (error) {
+    console.error(`\n❌ 更新中にエラーが発生しました:`, error);
+    process.exit(1);
+  }
+}
+
 // メイン処理
 function main(): void {
   const program = new Command();
@@ -155,6 +234,22 @@ function main(): void {
     .description('プロジェクトにSHIDEN Agent Skillsを初期化')
     .action((targetPath) => {
       initCommand(targetPath);
+    });
+
+  // update コマンド
+  program
+    .command('update [path]')
+    .description('SHIDEN Agent Skillsを最新版に更新')
+    .action((targetPath) => {
+      updateCommand(targetPath);
+    });
+
+  // upgrade コマンド (update のエイリアス)
+  program
+    .command('upgrade [path]')
+    .description('SHIDEN Agent Skillsを最新版に更新 (updateのエイリアス)')
+    .action((targetPath) => {
+      updateCommand(targetPath);
     });
 
   // theories サブコマンドを追加
