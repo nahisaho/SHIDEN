@@ -1,0 +1,34 @@
+# ソースファイル（distを使用）
+src/
+
+# 開発用ファイル
+*.test.ts
+tsconfig.json
+.eslintrc.*
+.prettierrc
+vitest.config.*
+
+# ドキュメント
+docs/
+
+# Git関連
+.git
+.gitignore
+.github/workflows/
+
+# IDE
+.vscode/
+.idea/
+
+# 一時ファイル
+*.log
+*.tmp
+coverage/
+node_modules/
+
+# ストレージ
+storage/
+
+# 設計・仕様書
+storage/specs/
+storage/design/

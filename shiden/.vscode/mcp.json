@@ -1,0 +1,10 @@
+{
+  "servers": {
+    "tenjin": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@nahisaho/tenjin-mcp-server"],
+      "env": {}
+    }
+  }
+}

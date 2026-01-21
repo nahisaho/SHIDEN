@@ -1,0 +1,66 @@
+{
+  "name": "shiden",
+  "version": "0.1.0",
+  "description": "教育者向けGitHub Copilot Agent Skills - TENJIN GraphRAG連携で教育理論に基づくコンテンツ生成を支援",
+  "keywords": [
+    "github-copilot",
+    "agent-skills",
+    "education",
+    "teacher",
+    "lesson-plan",
+    "instructional-design",
+    "tenjin",
+    "graphrag",
+    "ai-assistant"
+  ],
+  "homepage": "https://github.com/nahisaho/shiden#readme",
+  "bugs": {
+    "url": "https://github.com/nahisaho/shiden/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nahisaho/shiden.git"
+  },
+  "license": "MIT",
+  "author": "nahisaho",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
+  "bin": {
+    "shiden": "bin/shiden.js"
+  },
+  "files": [
+    "dist/",
+    "bin/",
+    "templates/",
+    "AGENTS.md",
+    ".github/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "prepublishOnly": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.30",
+    "typescript": "^5.3.0",
+    "vitest": "^1.6.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
