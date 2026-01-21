@@ -14,6 +14,36 @@
 - **推奨**: 学習目標、難易度、時間配分
 - **任意**: デザイン要件、差別化対応
 
+## ⚠️ 必須: 学習指導要領参照
+
+> **小中高の教材作成時は、必ず学習指導要領を参照すること。**
+
+### 参照手順
+
+```bash
+# 1. 教科で検索
+npx shiden curriculum subject 理科
+
+# 2. 単元・キーワードで検索
+npx shiden curriculum search "電気の流れ"
+
+# 3. 学年で絞り込み
+npx shiden curriculum grade "第4学年"
+```
+
+### 必須出力セクション
+
+教材には必ず以下のセクションを含める：
+
+```markdown
+### 学習指導要領との関連
+
+**参照箇所**: {学校種}学習指導要領 第{章}章 第{節}節 {教科} {学年}
+**目標**: 「{学習指導要領の目標を引用}」
+**内容**: 「{当該単元の内容を引用}」
+**本教材との対応**: {教材内容が学習指導要領のどの部分に対応するか}
+```
+
 ## 対応する教材形式
 
 | 形式 | 説明 | 適した場面 |
@@ -257,20 +287,68 @@ Universal Design for Learningに基づき、多様な学習者に対応：
 - 選択可能な発展課題
 - 自己評価セクション
 
-## TENJIN連携
+## 教育理論データベースの活用
 
-### 推奨される理論検索
+### 理論検索コマンド
 
+教材設計に適した教育理論を検索するには、以下のコマンドを使用します：
+
+```bash
+# 授業設計・教材に関する理論を検索
+npx shiden theories search "教授設計"
+npx shiden theories search "動機づけ"
+
+# 特定の理論の詳細を取得
+npx shiden theories get gagnes_nine_events
+npx shiden theories get arcs_model
+
+# 関連する理論を取得
+npx shiden theories related gagnes_nine_events
+
+# カテゴリ一覧から選択
+npx shiden theories categories
+npx shiden theories list --category "授業設計"
 ```
-get_theory(id="gagnes_nine_events")
-→ Gagné's Nine Events の詳細と適用例
 
-get_theory(id="arcs_model")
-→ ARCS Model の詳細と動機づけ戦略
+### 主要な教材設計理論
 
-search_theories(category="instructional_materials")
-→ 教材設計に関する理論を検索
+| 理論ID | 理論名 | 用途 |
+|--------|--------|------|
+| `gagnes_nine_events` | Gagné's Nine Events | 9つの教授事象に基づく教材構成 |
+| `arcs_model` | ARCS Model | 動機づけを高める教材設計 |
+| `udl` | Universal Design for Learning | 多様な学習者への対応 |
+
+## 学習指導要領データベースの活用（必須）
+
+### 学習指導要領の参照手順
+
+> ⚠️ **必須**: 教材作成時は、**必ず**学習指導要領を参照して内容の妥当性を確認します。
+
+```bash
+# 教科で検索
+npx shiden curriculum subject 理科
+npx shiden curriculum subject 算数
+
+# キーワードで検索
+npx shiden curriculum search "電気の流れ"
+npx shiden curriculum search "図形の面積"
+
+# 学年で検索
+npx shiden curriculum grade "第4学年"
 ```
+
+### 教材への反映
+
+1. **学習内容の範囲確認**
+   - 当該学年で扱うべき内容を確認
+   - 前学年との系統性を把握
+
+2. **用語の正確性**
+   - 学習指導要領で使用されている用語を確認
+   - 学年に応じた表現を使用
+
+3. **評価の観点**
+   - 知識・技能、思考・判断・表現を意識した問題設計
 
 ## 出力例
 

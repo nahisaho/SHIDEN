@@ -292,23 +292,38 @@
 4. **次のステップで締める**
 5. **成長の可能性を伝える**
 
-## TENJIN連携
+## 教育理論データベースの活用
 
-### 推奨される理論検索
+### 理論検索コマンド
 
+フィードバックに関する教育理論を検索するには、以下のコマンドを使用します：
+
+```bash
+# フィードバック・動機づけに関する理論を検索
+npx shiden theories search "フィードバック"
+npx shiden theories search "動機づけ"
+npx shiden theories search "マインドセット"
+
+# 特定の理論の詳細を取得
+npx shiden theories get growth_mindset
+npx shiden theories get effective_feedback
+npx shiden theories get self_regulated_learning
+
+# 関連する理論を取得
+npx shiden theories related growth_mindset
+
+# カテゴリ一覧から選択
+npx shiden theories categories
+npx shiden theories list --category "動機づけ"
 ```
-get_theory(id="growth_mindset")
-→ Carol Dweck の Growth Mindset 理論
 
-get_theory(id="effective_feedback")
-→ 効果的なフィードバックの原則
+### 主要なフィードバック理論
 
-search_theories(category="motivation")
-→ 動機づけに関する理論
-
-get_theory(id="self_regulated_learning")
-→ 自己調整学習理論
-```
+| 理論ID | 理論名 | 用途 |
+|--------|--------|------|
+| `growth_mindset` | Growth Mindset | 成長志向のフィードバック |
+| `effective_feedback` | 効果的なフィードバック | フィードバックの原則 |
+| `self_regulated_learning` | 自己調整学習 | 自律的学習の促進 |
 
 ## 次のステップ
 

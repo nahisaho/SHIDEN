@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.3] - 2026-01-22
+
+### Changed
+
+- 🔧 **学習指導要領参照を必須ワークフローに変更**
+  - AGENTS.md: Phase 2として「学習指導要領参照（必須）」を追加
+  - lesson-plan.md: 入力要件に学習指導要領参照を必須化、必須出力セクション追加
+  - materials.md: 入力要件に学習指導要領参照を必須化、必須出力セクション追加
+  - assessment.md: 入力要件に学習指導要領参照を必須化、必須出力セクション追加
+  - individual.md: 入力要件に学習指導要領参照を必須化、必須出力セクション追加
+  - ワークフローを3フェーズから4フェーズに拡張（メタプロンプト→学習指導要領→スキル実行→理論引用）
+
+## [0.4.2] - 2026-01-22
+
+### Fixed
+
+- 🐛 バージョン再公開（npm publish修正）
+
 ## [0.4.1] - 2026-01-22
 
 ### Added

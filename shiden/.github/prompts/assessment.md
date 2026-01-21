@@ -14,6 +14,35 @@
 - **推奨**: 学習目標、評価の目的（形成的/総括的）
 - **任意**: 評価観点、配点、フィードバック方針
 
+## ⚠️ 必須: 学習指導要領参照
+
+> **小中高の評価設計時は、必ず学習指導要領を参照すること。**
+
+### 参照手順
+
+```bash
+# 1. 教科で検索
+npx shiden curriculum subject 英語
+
+# 2. 単元・キーワードで検索
+npx shiden curriculum search "プレゼンテーション"
+
+# 3. 学年で絞り込み
+npx shiden curriculum grade "高校"
+```
+
+### 必須出力セクション
+
+評価ツールには必ず以下のセクションを含める：
+
+```markdown
+### 学習指導要領との関連
+
+**参照箇所**: {学校種}学習指導要領 第{章}章 第{節}節 {教科} {学年}
+**評価の観点**: 知識・技能 / 思考・判断・表現 / 主体的に学習に取り組む態度
+**目標との対応**: {評価項目が学習指導要領のどの目標に対応するか}
+```
+
 ## 対応する評価タイプ
 
 | タイプ | 説明 | 適した場面 |
@@ -277,23 +306,37 @@ John Biggs の構成的整合性理論に基づき、以下を確認：
 | 評価 | 批評、判断、正当化 | 評価せよ、判断せよ |
 | 創造 | 新しいものの創出、設計 | 設計せよ、提案せよ |
 
-## TENJIN連携
+## 教育理論データベースの活用
 
-### 推奨される理論検索
+### 理論検索コマンド
 
+評価設計に適した教育理論を検索するには、以下のコマンドを使用します：
+
+```bash
+# 評価に関する理論を検索
+npx shiden theories search "評価"
+npx shiden theories search "assessment"
+
+# 特定の理論の詳細を取得
+npx shiden theories get constructive_alignment
+npx shiden theories get blooms_taxonomy
+npx shiden theories get formative_assessment
+
+# 関連する理論を取得
+npx shiden theories related constructive_alignment
+
+# カテゴリ一覧から選択
+npx shiden theories categories
+npx shiden theories list --category "評価"
 ```
-get_theory(id="constructive_alignment")
-→ 構成的整合性の詳細
 
-get_theory(id="blooms_taxonomy")
-→ 認知レベルの分類
+### 主要な評価理論
 
-search_theories(category="assessment")
-→ 評価に関する理論を検索
-
-get_theory(id="formative_assessment")
-→ 形成的評価の原則
-```
+| 理論ID | 理論名 | 用途 |
+|--------|--------|------|
+| `constructive_alignment` | 構成的整合性 | 目標・指導・評価の一貫性 |
+| `blooms_taxonomy` | Bloom's Taxonomy | 認知レベル別の問題設計 |
+| `formative_assessment` | 形成的評価 | 学習過程のフィードバック |
 
 ## 次のステップ
 

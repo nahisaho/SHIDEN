@@ -14,6 +14,36 @@
 - **推奨**: 学習目標、生徒状況、特別な配慮
 - **任意**: 使用可能な機材、評価基準
 
+## ⚠️ 必須: 学習指導要領参照
+
+> **小中高の授業計画作成時は、必ず学習指導要領を参照すること。**
+
+### 参照手順
+
+```bash
+# 1. 教科で検索
+npx shiden curriculum subject 算数
+
+# 2. 単元・キーワードで検索
+npx shiden curriculum search "一次関数"
+
+# 3. 学年で絞り込み
+npx shiden curriculum grade "第3学年"
+```
+
+### 必須出力セクション
+
+授業計画には必ず以下のセクションを含める：
+
+```markdown
+### 学習指導要領との関連
+
+**参照箇所**: {学校種}学習指導要領 第{章}章 第{節}節 {教科} {学年}
+**目標**: 「{学習指導要領の目標を引用}」
+**内容**: 「{当該単元の内容を引用}」
+**本時との対応**: {本時の目標が学習指導要領のどの部分に対応するか}
+```
+
 ## 出力構造
 
 ### 1. 基本情報
@@ -70,21 +100,21 @@
 |------|----------|---------------|------|
 | {分} | {活動内容} | {留意点} | {評価方法} |
 
-**教育理論の適用**: {TENJIN: 適用する理論と根拠}
+**教育理論の適用**: {理論名} - {適用の根拠}
 
 #### 展開（{時間}分）
 | 時間 | 学習活動 | 指導上の留意点 | 評価 |
 |------|----------|---------------|------|
 | {分} | {活動内容} | {留意点} | {評価方法} |
 
-**教育理論の適用**: {TENJIN: 適用する理論と根拠}
+**教育理論の適用**: {理論名} - {適用の根拠}
 
 #### まとめ（{時間}分）
 | 時間 | 学習活動 | 指導上の留意点 | 評価 |
 |------|----------|---------------|------|
 | {分} | {活動内容} | {留意点} | {評価方法} |
 
-**教育理論の適用**: {TENJIN: 適用する理論と根拠}
+**教育理論の適用**: {理論名} - {適用の根拠}
 ```
 
 ### 4. 評価規準
@@ -112,23 +142,31 @@
 ...
 ```
 
-## TENJIN連携
+## 教育理論データベースの活用
 
-### 推奨される理論検索
+### 理論検索コマンド
 
-```
-search_theories(category="instructional_design")
-→ 授業設計に関する理論を検索
+授業計画に適した教育理論を検索するには、以下のコマンドを使用します：
 
-recommend_theories_for_learner(
-  context="授業計画",
-  grade="{学年}",
-  subject="{教科}"
-)
-→ 学年・教科に適した理論を推薦
+```bash
+# カテゴリ別に理論を一覧
+npx shiden theories categories
 
-get_theory(id="blooms_taxonomy")
-→ Bloom's Taxonomyの詳細を取得
+# 授業設計に関する理論を検索
+npx shiden theories list --category "授業設計"
+npx shiden theories list --category "学習理論"
+
+# キーワードで理論を検索
+npx shiden theories search "学習目標"
+npx shiden theories search "動機づけ"
+npx shiden theories search "評価"
+
+# 特定の理論の詳細を取得
+npx shiden theories get blooms_taxonomy
+npx shiden theories get gagnes_nine_events
+
+# 関連する理論を取得
+npx shiden theories related blooms_taxonomy
 ```
 
 ### 適用が推奨される理論
@@ -138,6 +176,53 @@ get_theory(id="blooms_taxonomy")
 - **Constructive Alignment** - 目標・活動・評価の整合性
 - **Zone of Proximal Development** - 難易度設定
 - **ARCS Model** - 動機づけの工夫
+
+## 学習指導要領データベースの活用（必須）
+
+### 学習指導要領の参照手順
+
+> ⚠️ **必須**: 授業計画作成時は、**必ず**学習指導要領を参照し、目標・内容を準拠させます。
+
+```bash
+# 教科で検索（算数、国語、理科、社会、英語など）
+npx shiden curriculum subject 算数
+npx shiden curriculum subject 国語
+
+# キーワードで検索
+npx shiden curriculum search "一次関数"
+npx shiden curriculum search "図形の面積"
+
+# 学年で検索
+npx shiden curriculum grade "第3学年"
+npx shiden curriculum grade "中学1年"
+
+# 統計を確認
+npx shiden curriculum stats
+```
+
+### 授業計画への反映方法
+
+1. **学習指導要領から目標を引用**
+   - 検索結果の「目標」セクションを確認
+   - 本時の目標を学習指導要領の目標に沿って設定
+
+2. **指導内容の確認**
+   - 当該学年で扱う内容範囲を確認
+   - 前学年・次学年との系統性を把握
+
+3. **評価規準の作成**
+   - 学習指導要領の「評価の観点」を参照
+   - 知識・技能、思考・判断・表現、主体的に学習に取り組む態度
+
+### 出力への反映
+
+```markdown
+### 学習指導要領との関連
+
+**参照箇所**: 小学校学習指導要領 第2章 第3節 算数 第3学年
+**目標**: 「{学習指導要領の目標を引用}」
+**内容**: 「{当該単元の内容を引用}」
+```
 
 ## 学年・教科別調整
 

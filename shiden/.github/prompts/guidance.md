@@ -332,26 +332,40 @@
 > 
 > AIの提案はあくまで参考情報であり、専門家の判断に代わるものではありません。生徒の安全と well-being を最優先にしてください。
 
-## TENJIN連携
+## 教育理論データベースの活用
 
-### 推奨される理論検索
+### 理論検索コマンド
 
+生活指導に関する発達理論を検索するには、以下のコマンドを使用します：
+
+```bash
+# 発達理論を検索
+npx shiden theories search "発達"
+npx shiden theories search "道徳性"
+npx shiden theories search "生徒指導"
+
+# 特定の理論の詳細を取得
+npx shiden theories get eriksons_psychosocial_development
+npx shiden theories get kohlbergs_moral_development
+npx shiden theories get piagets_cognitive_development
+npx shiden theories get pbis
+
+# 関連する理論を取得
+npx shiden theories related eriksons_psychosocial_development
+
+# カテゴリ一覧から選択
+npx shiden theories categories
+npx shiden theories list --category "発達"
 ```
-get_theory(id="eriksons_psychosocial_development")
-→ Eriksonの心理社会的発達理論
 
-get_theory(id="kohlbergs_moral_development")
-→ Kohlbergの道徳性発達理論
+### 主要な発達理論
 
-get_theory(id="piagets_cognitive_development")
-→ Piagetの認知発達理論
-
-get_theory(id="pbis")
-→ Positive Behavioral Interventions and Supports
-
-search_theories(category="guidance")
-→ 生徒指導に関する理論
-```
+| 理論ID | 理論名 | 用途 |
+|--------|--------|------|
+| `eriksons_psychosocial_development` | Eriksonの心理社会的発達 | 発達段階に応じた介入 |
+| `kohlbergs_moral_development` | Kohlbergの道徳性発達 | 道徳的判断の理解 |
+| `piagets_cognitive_development` | Piagetの認知発達 | 認知レベルに応じた説明 |
+| `pbis` | PBIS | 学校全体での行動支援 |
 
 ## 次のステップ
 
