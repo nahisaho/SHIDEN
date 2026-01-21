@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.2] - 2026-01-22
+
+### Fixed
+
+- 🛠️ **1問1答コンテキスト収集ワークフローの修正**
+  - AIエージェントが1問1答フローを正しく実行しない問題を修正
+  - `AGENTS.md`: 判定基準・絶対ルール・実行フローを明示的に追加
+  - `meta-prompt.md`: 🚨絶対ルールセクションを追加
+  - 質問フォーマットを`[Q1/5]`形式で統一
+  - 終了判定条件を明確化
+
 ## [0.3.1] - 2026-01-21
 
 ### Changed
