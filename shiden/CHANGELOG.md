@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-01-21
+
+### Added
+
+- 🔗 **TENJIN MCP Server 統合**
+  - `.vscode/mcp.json` テンプレート追加（`npx shiden init` で自動コピー）
+  - uvx / Docker両方のTENJIN起動設定に対応
+  - 環境変数による設定カスタマイズ（Neo4j, ChromaDB, Ollama）
+
+### Changed
+
+- `npx shiden init` で `.vscode/mcp.json` も自動生成されるように変更
+- 成功メッセージにTENJINセットアップ手順を追加
+- README.mdにTENJINセットアップガイドを追加
+
 ## [0.1.0] - 2026-01-21
 
 ### Added
@@ -40,3 +55,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `README.md` - パッケージドキュメント
 
 [0.1.0]: https://github.com/nahisaho/shiden/releases/tag/v0.1.0
+[0.2.0]: https://github.com/nahisaho/shiden/releases/tag/v0.2.0

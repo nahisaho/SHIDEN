@@ -50,6 +50,7 @@ function getSuccessMessage(targetDir: string): string {
   ${targetDir}/AGENTS.md              - Agent Skills エントリーポイント
   ${targetDir}/.github/prompts/       - 教育スキルプロンプト
   ${targetDir}/.github/skills/        - 統合スキル
+  ${targetDir}/.vscode/mcp.json       - TENJIN MCP設定
 
 🚀 次のステップ:
   1. VS Code で ${targetDir} を開く
@@ -57,8 +58,11 @@ function getSuccessMessage(targetDir: string): string {
   3. @workspace に質問する（例: 「中学2年の数学の授業計画を作成して」）
 
 💡 TENJIN GraphRAG 連携（推奨）:
-  TENJIN MCP Serverをセットアップすると、175+の教育理論を活用できます。
-  https://github.com/nahisaho/TENJIN
+  175+の教育理論を活用するには、以下のセットアップが必要です：
+  1. Docker で Neo4j + ChromaDB を起動
+  2. uvx または pip で TENJIN をインストール
+  3. .vscode/mcp.json の環境変数を調整
+  詳細: https://github.com/nahisaho/TENJIN
 
 📖 ドキュメント: https://github.com/nahisaho/SHIDEN
 `;
@@ -136,6 +140,14 @@ function initCommand(targetPath: string = '.'): void {
     if (fs.existsSync(skillsSrc)) {
       copyDirRecursive(skillsSrc, skillsDest);
       console.log(`  ✓ .github/skills/`);
+    }
+
+    // .vscode/mcp.json をコピー（TENJIN MCP設定）
+    const mcpSrc = path.join(templatesDir, '.vscode', 'mcp.json');
+    const mcpDest = path.join(targetDir, '.vscode', 'mcp.json');
+    if (fs.existsSync(mcpSrc)) {
+      copyFile(mcpSrc, mcpDest);
+      console.log(`  ✓ .vscode/mcp.json`);
     }
 
     console.log(getSuccessMessage(targetDir));

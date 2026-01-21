@@ -55,6 +55,53 @@ VS Codeでプロジェクトを開き、GitHub Copilot Chatで以下のように
 
 SHIDENは[TENJIN](https://github.com/nahisaho/tenjin)と連携し、教育理論のエビデンスを自動引用します。
 
+### TENJINセットアップ（推奨）
+
+`npx shiden init` 実行後、`.vscode/mcp.json` がプロジェクトにコピーされます。TENJINを使用するには以下の準備が必要です：
+
+#### 1. インフラ起動（Docker）
+
+```bash
+# TENJINリポジトリをクローン
+git clone https://github.com/nahisaho/TENJIN.git
+cd TENJIN
+
+# Neo4j + ChromaDB + Redisを起動
+docker-compose up -d
+```
+
+#### 2. TENJINインストール
+
+```bash
+# uvx（推奨）
+uvx tenjin-server
+
+# または pip
+pip install tenjin
+```
+
+#### 3. MCP設定の調整
+
+`.vscode/mcp.json` の環境変数を環境に合わせて調整してください：
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "tenjin": {
+        "command": "uvx",
+        "args": ["--from", "tenjin", "tenjin-server"],
+        "env": {
+          "NEO4J_URI": "bolt://localhost:7687",
+          "NEO4J_PASSWORD": "your-password",
+          "OLLAMA_HOST": "http://localhost:11434"
+        }
+      }
+    }
+  }
+}
+```
+
 ### 連携される理論の例
 
 - Bloom's Taxonomy（認知的領域の分類）
@@ -69,6 +116,8 @@ SHIDENは[TENJIN](https://github.com/nahisaho/tenjin)と連携し、教育理論
 ```
 your-project/
 ├── AGENTS.md                    # エントリーポイント
+├── .vscode/
+│   └── mcp.json                 # TENJIN MCP設定
 ├── .github/
 │   ├── prompts/                 # スキル定義
 │   │   ├── meta-prompt.md       # メタプロンプト生成

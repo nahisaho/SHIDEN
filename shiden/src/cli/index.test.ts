@@ -110,6 +110,18 @@ describe('SHIDEN CLI', () => {
         expect(fs.existsSync(filePath)).toBe(true);
       }
     });
+
+    it('should create TENJIN MCP configuration', () => {
+      execSync(`node ${CLI_PATH} init ${tempDir}`, { encoding: 'utf-8' });
+
+      const mcpPath = path.join(tempDir, '.vscode', 'mcp.json');
+      expect(fs.existsSync(mcpPath)).toBe(true);
+
+      // MCP設定の内容を確認
+      const mcpContent = JSON.parse(fs.readFileSync(mcpPath, 'utf-8'));
+      expect(mcpContent.mcp.servers.tenjin).toBeDefined();
+      expect(mcpContent.mcp.servers.tenjin.command).toBe('uvx');
+    });
   });
 
   describe('unknown command', () => {

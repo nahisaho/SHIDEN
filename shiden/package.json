@@ -1,6 +1,6 @@
 {
   "name": "shiden",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "教育者向けGitHub Copilot Agent Skills - TENJIN GraphRAG連携で教育理論に基づくコンテンツ生成を支援",
   "keywords": [
     "github-copilot",

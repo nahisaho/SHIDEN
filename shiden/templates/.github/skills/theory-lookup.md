@@ -11,7 +11,56 @@
 ### 接続設定
 
 TENJINはMCP（Model Context Protocol）サーバーとして動作します。
-VS Codeの設定でMCPサーバーとして登録されている必要があります。
+`npx shiden init` 実行時に `.vscode/mcp.json` がプロジェクトにコピーされます。
+
+#### MCP設定ファイル（.vscode/mcp.json）
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "tenjin": {
+        "command": "uvx",
+        "args": ["--from", "tenjin", "tenjin-server"],
+        "env": {
+          "NEO4J_URI": "bolt://localhost:7687",
+          "NEO4J_USER": "neo4j",
+          "NEO4J_PASSWORD": "password",
+          "CHROMA_PERSIST_DIR": "./data/chromadb",
+          "EMBEDDING_PROVIDER": "ollama",
+          "EMBEDDING_MODEL": "nomic-embed-text",
+          "LLM_PROVIDER": "ollama",
+          "LLM_MODEL": "qwen2.5:14b",
+          "OLLAMA_HOST": "http://localhost:11434"
+        }
+      }
+    }
+  }
+}
+```
+
+#### TENJINセットアップ手順
+
+1. **インフラ起動（Docker）**
+   ```bash
+   git clone https://github.com/nahisaho/TENJIN.git
+   cd TENJIN
+   docker-compose up -d
+   ```
+
+2. **TENJINインストール**
+   ```bash
+   # uvx（推奨）
+   uvx tenjin-server
+   
+   # または pip
+   pip install tenjin
+   ```
+
+3. **環境変数の調整**
+   - `NEO4J_PASSWORD`: Neo4jパスワード
+   - `OLLAMA_HOST`: Ollamaサーバーアドレス
+   - `LLM_MODEL`: 使用するLLMモデル
 
 ### 利用可能なツール
 
