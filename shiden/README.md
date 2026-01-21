@@ -71,6 +71,35 @@ npx shiden theories get theory-003
 npx shiden theories related theory-003 -d 2
 ```
 
+## 🆕 v0.4.0: 学習指導要領CLI（NEW!）
+
+**文部科学省の学習指導要領（小学校・中学校・高等学校）をGraphRAG DBとして内蔵**。  
+教科・学年・キーワードで素早く参照できます。
+
+```bash
+# キーワード検索
+npx shiden curriculum search "プログラミング"
+npx shiden curriculum search "論理的思考"
+
+# 教科別検索
+npx shiden curriculum subject 算数
+npx shiden curriculum subject 英語
+
+# 学年別検索
+npx shiden curriculum grade "第3学年"
+
+# 統計表示
+npx shiden curriculum stats
+```
+
+### 収録コンテンツ
+
+| ドキュメント | セクション数 | 内容 |
+|-------------|-------------|------|
+| 小学校学習指導要領 | 538 | 国語、算数、理科、社会、英語、道徳、総合等 |
+| 中学校学習指導要領 | 560 | 国語、数学、理科、社会、英語、道徳、総合等 |
+| 高等学校学習指導要領 | 1,371 | 各教科・科目・専門教科（農業、工業、商業等） |
+
 ### カテゴリ一覧
 
 | カテゴリ | 件数 | 説明 |
@@ -171,12 +200,21 @@ your-project/
 # Agent Skillsファイルをプロジェクトにコピー
 npx shiden init
 
+# スキルを更新
+npx shiden update
+
 # 教育理論CLI
 npx shiden theories categories       # カテゴリ一覧
 npx shiden theories search "キーワード"  # 検索
 npx shiden theories get <id>         # 詳細取得
 npx shiden theories list             # 一覧
 npx shiden theories related <id>     # 関連理論
+
+# 学習指導要領CLI (v0.4.0 NEW!)
+npx shiden curriculum search "キーワード"  # 全文検索
+npx shiden curriculum subject <教科名>     # 教科別検索
+npx shiden curriculum grade <学年>         # 学年別検索
+npx shiden curriculum stats               # 統計表示
 
 # バージョン表示
 npx shiden -v

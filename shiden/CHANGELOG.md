@@ -5,6 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2026-01-22
+
+### Added
+
+- 📚 **中学校・高等学校学習指導要領を追加**
+  - 中学校学習指導要領（平成29年告示）: 560セクション
+  - 高等学校学習指導要領（平成30年告示）: 1,371セクション
+  - 合計2,469セクション、555,352リレーション
+
+### Changed
+
+- 小学校学習指導要領のセクション数を538件に修正（重複除去）
+
+## [0.4.0] - 2026-01-22
+
+### Added
+
+- 📚 **学習指導要領データベースを追加**
+  - 文部科学省の学習指導要領（小学校・平成29年告示）をGraphRAG DBとして内蔵
+  - 2,469セクション、555,352リレーションを収録
+  - FTS5 trigramで日本語全文検索対応
+
+- 🔍 **curriculum CLIコマンドを追加**
+  - `npx shiden curriculum search <query>` - キーワード検索
+  - `npx shiden curriculum subject <name>` - 教科別検索
+  - `npx shiden curriculum grade <grade>` - 学年別検索
+  - `npx shiden curriculum stats` - 統計表示
+
+- 📝 **スキルファイルに学習指導要領参照を追加**
+  - `lesson-plan.md`: 授業計画作成時の学習指導要領参照手順
+  - `materials.md`: 教材作成時の学習指導要領参照手順
+  - `AGENTS.md`: 学習指導要領データベースの活用方法
+
+### Changed
+
+- 📦 パッケージサイズ増加（学習指導要領DB追加のため）
+
 ## [0.3.5] - 2026-01-22
 
 ### Removed

@@ -147,6 +147,53 @@ npx shiden theories related blooms_taxonomy
 - **Zone of Proximal Development** - 難易度設定
 - **ARCS Model** - 動機づけの工夫
 
+## 学習指導要領データベースの活用（v0.4.0 NEW!）
+
+### 学習指導要領の参照手順
+
+授業計画作成時は、必ず**学習指導要領**を参照し、目標・内容を準拠させます。
+
+```bash
+# 教科で検索（算数、国語、理科、社会、英語など）
+npx shiden curriculum subject 算数
+npx shiden curriculum subject 国語
+
+# キーワードで検索
+npx shiden curriculum search "一次関数"
+npx shiden curriculum search "図形の面積"
+
+# 学年で検索
+npx shiden curriculum grade "第3学年"
+npx shiden curriculum grade "中学1年"
+
+# 統計を確認
+npx shiden curriculum stats
+```
+
+### 授業計画への反映方法
+
+1. **学習指導要領から目標を引用**
+   - 検索結果の「目標」セクションを確認
+   - 本時の目標を学習指導要領の目標に沿って設定
+
+2. **指導内容の確認**
+   - 当該学年で扱う内容範囲を確認
+   - 前学年・次学年との系統性を把握
+
+3. **評価規準の作成**
+   - 学習指導要領の「評価の観点」を参照
+   - 知識・技能、思考・判断・表現、主体的に学習に取り組む態度
+
+### 出力への反映
+
+```markdown
+### 学習指導要領との関連
+
+**参照箇所**: 小学校学習指導要領 第2章 第3節 算数 第3学年
+**目標**: 「{学習指導要領の目標を引用}」
+**内容**: 「{当該単元の内容を引用}」
+```
+
 ## 学年・教科別調整
 
 ### 小学校（低学年）

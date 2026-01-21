@@ -288,6 +288,38 @@ npx shiden theories list --category "授業設計"
 | `arcs_model` | ARCS Model | 動機づけを高める教材設計 |
 | `udl` | Universal Design for Learning | 多様な学習者への対応 |
 
+## 学習指導要領データベースの活用（v0.4.0 NEW!）
+
+### 学習指導要領の参照手順
+
+教材作成時は、**学習指導要領**を参照して内容の妥当性を確認します。
+
+```bash
+# 教科で検索
+npx shiden curriculum subject 理科
+npx shiden curriculum subject 算数
+
+# キーワードで検索
+npx shiden curriculum search "電気の流れ"
+npx shiden curriculum search "図形の面積"
+
+# 学年で検索
+npx shiden curriculum grade "第4学年"
+```
+
+### 教材への反映
+
+1. **学習内容の範囲確認**
+   - 当該学年で扱うべき内容を確認
+   - 前学年との系統性を把握
+
+2. **用語の正確性**
+   - 学習指導要領で使用されている用語を確認
+   - 学年に応じた表現を使用
+
+3. **評価の観点**
+   - 知識・技能、思考・判断・表現を意識した問題設計
+
 ## 出力例
 
 （ワークシートの例）

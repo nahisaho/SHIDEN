@@ -30,3 +30,5 @@ coverage/
 
 # Pack output
 *.tgz
+shiden/src/data/curriculum.db
+CurricurlumGuideline/*.pdf

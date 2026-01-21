@@ -179,6 +179,42 @@ npx shiden theories related <id>     # 関連理論
 - **Growth Mindset** - 成長マインドセット
 - **Universal Design for Learning** - 学びのユニバーサルデザイン
 
+## 学習指導要領データベース（v0.4.0 NEW!）
+
+SHIDENは**文部科学省の学習指導要領**をGraphRAG DBとして内蔵しています。  
+授業計画・教材作成時に、学習指導要領に準拠した内容を参照できます。
+
+### CLIコマンド
+
+```bash
+npx shiden curriculum search "キーワード"  # 全文検索
+npx shiden curriculum subject <教科名>     # 教科別検索（算数、国語、理科等）
+npx shiden curriculum grade <学年>         # 学年別検索
+npx shiden curriculum stats               # 統計表示
+```
+
+### 収録コンテンツ（2,469セクション）
+
+- **小学校学習指導要領**（平成29年告示）
+  - 国語、社会、算数、理科、生活、音楽、図画工作、家庭、体育、外国語
+  - 特別の教科 道徳、外国語活動、総合的な学習の時間、特別活動
+
+### ワークフローでの活用方法
+
+授業計画・教材作成時は、以下の手順で学習指導要領を参照します：
+
+1. **対象学年・教科を特定**（1問1答フローで収集）
+2. **学習指導要領を検索**（`npx shiden curriculum search`）
+3. **該当する目標・内容を引用**してコンテンツに反映
+4. **理論的根拠と合わせて**エビデンスベースの教材を作成
+
+**例: 算数「一次関数」の授業計画作成時**
+```bash
+npx shiden curriculum search "関数"
+npx shiden curriculum subject 算数
+```
+→ 学習指導要領の該当箇所を確認し、目標設定に反映
+
 ## 使用例
 
 ### 例1: 授業計画作成

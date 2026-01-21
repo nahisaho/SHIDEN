@@ -1,7 +1,7 @@
 {
   "name": "shiden",
-  "version": "0.3.5",
-  "description": "教育者向けGitHub Copilot Agent Skills - 175件の教育理論を内蔵、FTS5日本語検索対応",
+  "version": "0.4.1",
+  "description": "教育者向けGitHub Copilot Agent Skills - 175件の教育理論＋学習指導要領を内蔵、FTS5日本語検索対応",
   "keywords": [
     "github-copilot",
     "agent-skills",
@@ -39,7 +39,8 @@
     "dist/",
     "bin/",
     "templates/",
-    "src/data/",
+    "src/data/*.db",
+    "src/data/*.json",
     "AGENTS.md",
     ".github/",
     "README.md",
