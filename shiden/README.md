@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/shiden.svg)](https://www.npmjs.com/package/shiden)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**SHIDEN**（紫電）は、教育者のためのGitHub Copilot Agent Skillsパッケージです。  
+**SHIDEN**（師伝）は、教育者のためのGitHub Copilot Agent Skillsパッケージです。  
 **175件の教育理論を内蔵**し、エビデンスベースの教育コンテンツ作成を支援します。
 
 ## ✨ 特徴

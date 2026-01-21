@@ -10,7 +10,7 @@ SHIDENは、教育者（小中高・大学教員）が質の高い教育コン�
 
 1. **メタプロンプト生成** - 曖昧なリクエストを構造化し、真の目的を明確化
 2. **6つのユースケーススキル** - 授業計画、教材、評価、個別指導、フィードバック、生活指導
-3. **TENJIN GraphRAG連携** - 175+の教育理論に基づくエビデンス引用
+3. **175件の教育理論を内蔵** - SQLite FTS5で日本語全文検索対応
 
 ## ワークフロー
 
@@ -125,7 +125,7 @@ SHIDENは、教育者（小中高・大学教員）が質の高い教育コン�
 | スキル | ファイル | 説明 |
 |--------|----------|------|
 | オーケストレーション | `orchestrator.md` | スキル選択・連携制御 |
-| 理論検索 | `theory-lookup.md` | TENJIN GraphRAG連携 |
+| 理論検索 | `theory-lookup.md` | 内蔵教育理論データベース連携 |
 | コンテキスト管理 | `context-manager.md` | セッション情報保持 |
 
 ## スキルルーティング
@@ -157,16 +157,18 @@ SHIDENは、教育者（小中高・大学教員）が質の高い教育コン�
 番号または内容でお答えください。
 ```
 
-## TENJIN連携
+## 教育理論データベース
 
-SHIDENはTENJIN GraphRAG MCP Serverと連携し、以下の機能を提供します：
+SHIDENは175件の教育理論を内蔵しており、CLIから検索・参照できます：
 
-### 主要な連携ツール
+### CLIコマンド
 
-- `search_theories(query)` - キーワードで理論を検索
-- `get_theory(theory_id)` - 理論の詳細を取得
-- `recommend_theories(context)` - コンテキストに基づく理論推薦
-- `get_related_theories(theory_id)` - 関連理論の取得
+```bash
+npx shiden theories categories       # カテゴリ一覧
+npx shiden theories search "キーワード"  # 検索（日本語対応）
+npx shiden theories get <id>         # 詳細取得
+npx shiden theories related <id>     # 関連理論
+```
 
 ### 引用される主な理論
 
