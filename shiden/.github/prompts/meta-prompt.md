@@ -6,7 +6,7 @@ description: >
   under-specified, or needs context collection before any education artifact is generated.
 metadata:
   author: nahisaho
-  version: "0.5.0"
+  version: "0.5.1"
 ---
 
 # Meta Prompt
@@ -31,7 +31,8 @@ metadata:
 3. 5問以内で、学年・教科・トピック・目標・制約を優先収集する。
 4. 情報が十分にそろった時点で質問を打ち切り、構造化メタプロンプトを生成する。
 5. 後続スキルへ、確定情報と未確定情報を明示して引き継ぐ。
-6. 収集プロセス全体（質問意図、回答の解釈、判断理由）を表示し、成果物とともにファイルへ保存する。
+6. 収集プロセス全体（質問意図、回答の解釈、判断理由）を表示する。
+7. create_fileツールで `SHIDEN_meta-prompt_{YYYYMMDD}_{topic}.md` にプロセスと成果物を保存する。保存完了をユーザーに報告する。
 
 ## Conditional References
 
@@ -73,4 +74,5 @@ metadata:
    - 質問が1件ずつになっているか。
    - 危機対応時の注意書きが必要か。
 3. 不合格なら、質問順序または推測の扱いを修正して再提示する。
-4. 合格後のみ後続スキルへ引き継ぐ。
+4. ファイルが保存されていなければ、create_fileで保存する。
+5. 合格後のみ後続スキルへ引き継ぐ。

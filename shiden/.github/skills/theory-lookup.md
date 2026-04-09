@@ -6,7 +6,7 @@ description: >
   related theory discovery, or evidence-based instructional rationale.
 metadata:
   author: nahisaho
-  version: "0.5.0"
+  version: "0.5.1"
 ---
 
 # Theory Lookup

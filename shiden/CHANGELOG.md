@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2026-04-10
+
+### Fixed
+
+- 🐛 **ファイル保存が実行されない問題を修正**
+  - copilot-instructions.md: File Outputセクションを全面書き換え、create_fileツール呼び出しを必須手順として明示
+  - 全7 promptファイル: Workflowをプロセス表示（ステップ6）とcreate_file保存（ステップ7）に分離
+  - 全7 promptファイル: Validation Loopにファイル保存確認ステップを追加
+  - Gotchasに「チャット表示は保存ではない」「create_file失敗時はターミナル書き込みにフォールバック」を追記
+  - ファイル構造テンプレート（YAML frontmatter + 6セクション）を追加
+
 ## [0.5.0] - 2026-04-10
 
 ### Added

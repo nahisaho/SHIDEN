@@ -6,7 +6,7 @@ description: >
   student behavior support, parent communication, counseling flow, or crisis response.
 metadata:
   author: nahisaho
-  version: "0.5.0"
+  version: "0.5.1"
 ---
 
 # Guidance
@@ -32,7 +32,8 @@ metadata:
 3. 発達段階や学校文脈を踏まえて、初期対応、継続支援、フォローアップを設計する。
 4. 保護者連絡文や面談方針が必要なら、役割別に分けて作成する。
 5. assets/guidance-template.mdを再利用し、専門家連携が必要な場合は必ず明記する。
-6. プロセス全体（緊急度判定の理由、対応フェーズの設計根拠、連携先選定理由）を表示し、成果物とともにファイルへ保存する。
+6. プロセス全体（緊急度判定の理由、対応フェーズの設計根拠、連携先選定理由）を表示する。
+7. create_fileツールで `SHIDEN_guidance_{YYYYMMDD}_{topic}.md` にプロセスと成果物を保存する。保存完了をユーザーに報告する。
 
 ## Conditional References
 
@@ -75,4 +76,5 @@ metadata:
    - 校内外連携が必要なケースで漏れがないか。
    - 事実と評価が混同されていないか。
 3. 不合格なら、対応フェーズと連携先を修正して再生成する。
-4. 安全条件を満たしたら完了とする。
+4. ファイルが保存されていなければ、create_fileで保存する。
+5. 安全条件を満たしたら完了とする。

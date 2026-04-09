@@ -6,7 +6,7 @@ description: >
   accommodations, intervention planning, or differentiated instruction.
 metadata:
   author: nahisaho
-  version: "0.5.0"
+  version: "0.5.1"
 ---
 
 # Individual Support
@@ -32,7 +32,8 @@ metadata:
 3. references/common-theory-selection.mdを読み、ZPD、Scaffolding、UDLなどから支援理論を選ぶ。
 4. 高リスク事案や心理的危機が疑われる場合はreferences/common-safety.mdを読み、専門家連携を明記する。
 5. assets/individual-template.mdを再利用し、目標、支援戦略、進捗確認方法を整理する。
-6. プロセス全体（到達範囲確認結果、支援理論の選定理由、リスク判定）を表示し、成果物とともにファイルへ保存する。
+6. プロセス全体（到達範囲確認結果、支援理論の選定理由、リスク判定）を表示する。
+7. create_fileツールで `SHIDEN_individual_{YYYYMMDD}_{topic}.md` にプロセスと成果物を保存する。保存完了をユーザーに報告する。
 
 ## Conditional References
 
@@ -77,4 +78,5 @@ metadata:
    - 支援行動が環境内で実施可能か。
    - 高リスクケースで専門家連携が必要か。
 3. 不合格なら、目標粒度・支援方法・連携先を修正して再生成する。
-4. 教師が実施に移せる粒度になったら完了とする。
+4. ファイルが保存されていなければ、create_fileで保存する。
+5. 教師が実施に移せる粒度になったら完了とする。

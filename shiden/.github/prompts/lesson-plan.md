@@ -6,7 +6,7 @@ description: >
   unit lesson flow, or class activity sequence.
 metadata:
   author: nahisaho
-  version: "0.5.0"
+  version: "0.5.1"
 ---
 
 # Lesson Plan
@@ -32,7 +32,8 @@ metadata:
 3. references/common-theory-selection.mdを読み、目標・活動・評価に合う理論を2件以上選ぶ。
 4. assets/lesson-plan-template.mdを再利用し、導入・展開・まとめ・評価を一貫して設計する。
 5. 後続で教材や評価を作る可能性があるため、学習目標と観点を明示する。
-6. プロセス全体（指導要領検索結果、理論選定理由、設計判断）を表示し、成果物とともにファイルへ保存する。
+6. プロセス全体（指導要領検索結果、理論選定理由、設計判断）を表示する。
+7. create_fileツールで `SHIDEN_lesson-plan_{YYYYMMDD}_{topic}.md` にプロセスと成果物を保存する。保存完了をユーザーに報告する。
 
 ## Conditional References
 
@@ -76,4 +77,5 @@ metadata:
    - 学習指導要領の参照が必要な対象で漏れていないか。
    - 活動が授業時間内に収まっているか。
 3. 不合格なら、目標文・時間配分・参照理論を修正して再生成する。
-4. 全ゲート通過後のみ完了とする。
+4. ファイルが保存されていなければ、create_fileで保存する。
+5. 全ゲート通過後のみ完了とする。
