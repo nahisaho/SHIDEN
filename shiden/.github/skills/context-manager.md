@@ -1,324 +1,63 @@
-# コンテキスト管理スキル
+---
+name: context-manager
+description: >
+  Preserve structured SHIDEN session context and hand off prior outputs between
+  prompts safely. Use when a later prompt must reuse a previous artifact, when
+  session defaults matter, or when generated outputs need consistent carry-over.
+metadata:
+  author: nahisaho
+  version: "0.5.0"
+---
 
-> セッション内の情報を保持し、スキル間のデータ受け渡しを管理します。
+# Context Manager
 
-## 概要
+セッション内で確定した条件と生成済み成果物を再利用可能な形で保持する。
 
-このスキルは、SHIDENのセッション全体を通じてコンテキスト（文脈情報）を管理します。会話履歴、前回のスキル実行結果、ユーザー設定などを保持し、スキル間の連携を円滑にします。
+## Use This Skill When
 
-## 主な機能
+- 直前の授業計画を基に教材や評価を作る。
+- 学年、教科、単元などの既知条件を再入力させたくない。
+- 生成済み成果物の観点や目標を次工程へ渡したい。
 
-### 1. セッションコンテキストの保持
+## Workflow
 
-会話セッション中に以下の情報を保持します：
+1. 会話から確定情報と未確定情報を分ける。
+2. 学年、教科、単元、目標、配慮事項、成果物IDを構造化して保存する。
+3. 後続promptが参照するときは、必要最小限の要素だけ引き渡す。
+4. 古い条件と新しい条件が競合したら、最新の明示入力を優先する。
+5. セッション要約が必要なら、再利用価値の高い成果物だけを列挙する。
+6. 各promptで生成されたプロセスログのファイルパスも保持し、後続参照に使う。
 
-- **会話履歴**: ユーザーとの対話履歴
-- **スキル実行結果**: 各スキルが生成したコンテンツ
-- **メタプロンプト**: 収集したコンテキスト情報
-- **TENJIN検索結果**: 参照した教育理論
-- **ユーザー設定**: デフォルトの学年・教科など
+## Conditional References
 
-### 2. コンテキスト操作
+- Read references/session-schema.md when you need the canonical context keys or handoff shape.
 
-#### remember（記憶）
+## Quality Gates
 
-情報をセッションコンテキストに保存します。
+- [ ] 確定情報と推測情報を混同していない。
+- [ ] 後続promptに不要な情報を渡していない。
+- [ ] 最新のユーザー指定が古い保存値に勝っている。
+- [ ] 参照対象の成果物種別が識別できる。
+- [ ] プロセスログのファイルパスが保持されている。
 
-```
-remember(key, value, metadata?)
-```
+## Data Handling & Safety
 
-**使用例**:
-```
-remember("last_lesson_plan", {
-  subject: "数学",
-  grade: "中学2年",
-  topic: "一次関数",
-  content: "...",
-  theories: ["blooms_taxonomy", "gagnes_nine_events"]
-}, {
-  timestamp: "2026-01-21T10:30:00",
-  skill: "lesson-plan"
-})
-```
+- 保存するのは再利用に必要な条件のみとし、個人情報の持ち越しを最小化する。
+- センシティブ案件では、匿名化した要約だけを保持する。
+- 古い危機案件の文脈を新しい通常案件へ自動流用しない。
 
-#### recall（想起）
+## Gotchas
 
-保存された情報を取得します。
+- 「前の内容を使って」が何を指すか曖昧なまま引き継ぐと、誤った成果物を参照しやすい。
+- 目標だけでなく評価観点も保持しないと、assessmentやfeedbackへの接続が弱くなる。
+- すべての会話ログを保持するより、再利用キーに正規化した方が後続promptの精度が上がる。
 
-```
-recall(key)
-recall(query, type?)
-```
+## Validation Loop
 
-**使用例**:
-```
-recall("last_lesson_plan")
-→ 直前の授業計画を取得
-
-recall("前の授業計画", "lesson-plan")
-→ 自然言語クエリで関連情報を検索
-```
-
-#### clear（クリア）
-
-コンテキストをクリアします。
-
-```
-clear(key?)
-clear() // 全クリア
-```
-
-**使用例**:
-```
-clear("last_lesson_plan")
-→ 特定のキーをクリア
-
-clear()
-→ セッション全体をクリア
-```
-
-#### summarize（要約）
-
-セッションの要約を生成します。
-
-```
-summarize()
-```
-
-**出力例**:
-```markdown
-## セッションサマリー
-
-### 実行したスキル
-1. **メタプロンプト生成** - 中学2年数学「一次関数」
-2. **授業計画作成** - 50分、第3時/10時
-3. **ワークシート作成** - 練習問題10問
-
-### 参照した理論
-- Bloom's Taxonomy（学習目標設定）
-- Gagné's Nine Events（授業構成）
-
-### 生成したコンテンツ
-- 授業計画 1件
-- ワークシート 1件
-```
-
-## スキル間データ受け渡し
-
-### パターン1: 授業計画 → 教材作成
-
-```
-[lesson-plan.md]
-1. 授業計画を生成
-2. context-manager に保存: remember("current_lesson_plan", plan)
-
-[materials.md]
-1. コンテキストを取得: recall("current_lesson_plan")
-2. 授業計画の内容に基づいてワークシートを生成
-3. 整合性を確保
-```
-
-### パターン2: 授業計画 → 評価設計
-
-```
-[lesson-plan.md]
-1. 授業計画（学習目標含む）を生成
-2. context-manager に保存
-
-[assessment.md]
-1. コンテキストから学習目標を取得
-2. 構成的整合性を確保した評価を設計
-3. 目標との対応関係を明示
-```
-
-### パターン3: 評価結果 → フィードバック
-
-```
-[assessment.md]
-1. ルーブリックを生成
-2. context-manager に保存
-
-[feedback.md]
-1. ルーブリックの評価観点を参照
-2. 観点に沿ったフィードバックを生成
-```
-
-## ユーザー参照パターン
-
-ユーザーが自然言語で前の成果物を参照する場合の対応：
-
-| ユーザー発話 | 解釈 | アクション |
-|-------------|------|-----------|
-| 「前の授業計画を基に」 | 直前の lesson-plan 出力 | recall("lesson-plan", latest=true) |
-| 「さっきのルーブリックを修正」 | 直前の assessment 出力 | recall("assessment", latest=true) |
-| 「同じ単元で教材を」 | 直前のメタプロンプトコンテキスト | recall("meta-prompt-context") |
-| 「今日作ったものの一覧」 | セッション全体 | summarize() |
-
-## コンテキスト構造
-
-### セッションコンテキストの内部構造
-
-```typescript
-interface SessionContext {
-  // セッション識別子
-  sessionId: string;
-  startTime: string;
-  
-  // ユーザー設定（デフォルト値）
-  userDefaults: {
-    grade?: string;      // デフォルト学年
-    subject?: string;    // デフォルト教科
-    language?: string;   // 使用言語
-  };
-  
-  // メタプロンプトコンテキスト
-  metaPromptContext: {
-    grade?: string;
-    subject?: string;
-    topic?: string;
-    learningObjective?: string;
-    duration?: number;
-    specialConsiderations?: string[];
-    collectedAnswers: {
-      question: string;
-      answer: string;
-      timestamp: string;
-    }[];
-  };
-  
-  // スキル実行履歴
-  skillHistory: {
-    skill: string;
-    timestamp: string;
-    input: object;
-    output: object;
-    theories: string[];
-  }[];
-  
-  // 生成コンテンツ
-  generatedContent: {
-    type: 'lesson-plan' | 'materials' | 'assessment' | 
-          'individual' | 'feedback' | 'guidance';
-    content: string;
-    metadata: object;
-    timestamp: string;
-  }[];
-  
-  // TENJIN検索結果キャッシュ
-  theoryCache: {
-    theoryId: string;
-    data: object;
-    timestamp: string;
-  }[];
-}
-```
-
-## マルチスキルオーケストレーション
-
-### 実行順序の最適化
-
-複合リクエスト時の実行順序を管理：
-
-```
-1. meta-prompt（コンテキスト収集）
-   ↓ コンテキストを保存
-2. lesson-plan（授業計画）
-   ↓ 授業計画を保存
-3. materials（教材）
-   ↓ 授業計画を参照しながら生成
-4. assessment（評価）
-   ↓ 目標・活動と整合性確保
-```
-
-### 依存関係の解決
-
-スキル間の依存関係を管理：
-
-| スキル | 依存先 | 依存内容 |
-|--------|--------|----------|
-| materials | lesson-plan | 授業の流れ、時間配分 |
-| assessment | lesson-plan | 学習目標、評価観点 |
-| feedback | assessment | 評価基準、観点 |
-| individual | assessment | 評価結果、課題 |
-
-### 整合性チェック
-
-スキル間の整合性を検証：
-
-```markdown
-## 整合性チェック結果
-
-✅ **学習目標の一貫性**
-- 授業計画の目標: {目標}
-- 評価の対象目標: {同一目標}
-- 結果: 一致
-
-✅ **認知レベルの整合性**
-- 目標レベル: 応用（Apply）
-- 評価レベル: 応用問題を含む
-- 結果: 整合
-
-⚠️ **時間配分の確認**
-- 授業計画: 50分
-- ワークシート所要時間: 60分（推定）
-- 結果: 調整を推奨
-```
-
-## 使用例
-
-### 例1: 連続したコンテンツ作成
-
-```
-ユーザー: 「中学2年の一次関数の授業計画を作成してください」
-
-[実行]
-1. meta-prompt でコンテキスト収集
-2. lesson-plan で授業計画生成
-3. context-manager に保存
-
-ユーザー: 「今の授業計画に合わせたワークシートも作って」
-
-[実行]
-1. context-manager から授業計画を recall
-2. materials で整合性のあるワークシート生成
-```
-
-### 例2: セッションのまとめ
-
-```
-ユーザー: 「今日作成したものを一覧で見せて」
-
-[実行]
-1. context-manager.summarize()
-2. 生成コンテンツの一覧を表示
-```
-
-### 例3: コンテキストの引き継ぎ
-
-```
-ユーザー: 「さっきと同じ学年・教科で、別の単元の授業計画を」
-
-[実行]
-1. recall("meta-prompt-context") で学年・教科を取得
-2. 新しい単元のみをヒアリング
-3. 既存コンテキストを活用して生成
-```
-
-## 注意事項
-
-### セッションの範囲
-
-- コンテキストは現在の会話セッション内でのみ有効
-- VS Codeを閉じるとリセットされます
-- 永続化が必要な場合はファイルに保存してください
-
-### プライバシー
-
-- 生徒の個人情報は保存しないでください
-- 機密性の高い情報は clear() でクリアしてください
-
-### 容量制限
-
-- 大量のコンテンツは要約して保存
-- 古いエントリは自動的に優先度が下がります
+1. 保存または再利用するコンテキストをまとめる。
+2. 確認する。
+   - 最新条件が反映されているか。
+   - 渡す情報が後続タスクに十分か。
+   - 不要な個人情報が混ざっていないか。
+3. 不合格なら、保持キーや参照対象を修正する。
+4. 妥当な引き継ぎ形に整えたら完了とする。

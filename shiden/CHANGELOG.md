@@ -5,6 +5,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-04-10
+
+### Added
+
+- 🎓 **Process Transparency — 生成プロセスの完全表示**
+  - 教員・教員志望の学生が設計思考を学べるよう、全工程の判断根拠を表示
+  - 6段階構成: Intake Summary → Curriculum Lookup → Theory Selection → Design Decisions → Artifact → Quality Check
+  - copilot-instructions.md に Process Transparency セクションを新設
+
+- 💾 **File Output — プロセスと成果物の自動ファイル保存**
+  - 命名規則: `SHIDEN_{artifact-type}_{YYYYMMDD}_{topic}.md`
+  - プロセスログと最終成果物を1ファイルにまとめて保存
+  - session-schema に `processLogs` フィールド追加
+
+- 📋 **copilot-instructions.md を新設**
+  - SHIDEN固有のIdentity、Scope、Core Workflow、Intake Rules、Output Standards、Safety、Quality Gatesを定義
+
+- 📁 **Harness最適化サポートファイルを追加**
+  - prompts/assets/: 7テンプレート（meta-prompt, lesson-plan, materials, assessment, individual, feedback, guidance）
+  - prompts/references/: 3参照ドキュメント（common-curriculum, common-theory-selection, common-safety）
+  - skills/references/: 2参照ドキュメント（session-schema, sqlite-cli-reference）
+
+### Changed
+
+- 🔄 **全10 prompt/skillファイルをHarness最適化**
+  - YAML frontmatter に description（Use when起動条件）を追加
+  - Conditional References で条件付き参照を明示
+  - Quality Gates、Gotchas 3+、Validation Loop、Data Handling & Safety を全ファイルに統一
+  - 全ファイルに Workflow ステップ6（プロセス表示+ファイル保存）を追加
+  - 全ファイルの Deliverables にプロセスログを追加
+  - 全ファイルの Quality Gates にプロセス確認項目を追加
+
+- 🔧 **orchestrator.md の改善**
+  - Routing Rules を明示的なテーブルで定義
+  - プロセス表示・保存の確認ステップを追加
+
+- 🔧 **context-manager.md の改善**
+  - プロセスログのファイルパス保持を追加
+
 ## [0.4.3] - 2026-01-22
 
 ### Changed
