@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.2] - 2026-04-10
+
+### Changed
+
+- 🔄 **出力順序を「成果物→プロセス→ファイル保存」に変更**
+  - copilot-instructions.md: Output Orderを Artifact → Process Log に変更
+  - 全7 promptファイル: Workflowを「成果物を先に提示→プロセス表示→create_file保存」の3ステップに分離
+  - File Content Structureのセクション順をArtifact → Process Logに変更
+  - 成果物を先に見せることで、プロセスを逆引きで学べる設計に
+
+### Added
+
+- 📝 **Qiita記事「SHIDEN(師伝)であなたの教育は変わる」を追加**
+  - docs/qiita/shiden-evidence-based-education.md
+  - 6つのユースケース、実例付きプロセス解説、AIツール比較表を含む
+
 ## [0.5.1] - 2026-04-10
 
 ### Fixed

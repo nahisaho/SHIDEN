@@ -6,7 +6,7 @@ description: >
   the target prompt is unclear, or execution order must be coordinated.
 metadata:
   author: nahisaho
-  version: "0.5.1"
+  version: "0.5.2"
 ---
 
 # Orchestrator

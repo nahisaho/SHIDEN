@@ -6,7 +6,7 @@ description: >
   slide deck, quiz sheet, handout, or lesson material package.
 metadata:
   author: nahisaho
-  version: "0.5.1"
+  version: "0.5.2"
 ---
 
 # Materials
@@ -32,8 +32,9 @@ metadata:
 3. references/common-theory-selection.mdを読み、注意喚起・練習・振り返りの設計原則を選定する。
 4. 要求形式に応じてassets/materials-template.mdを再利用し、教材構造を決める。
 5. 必要に応じて授業計画の目標や時間配分と整合させる。
-6. プロセス全体（指導要領参照結果、理論選定理由、形式選定理由）を表示する。
-7. create_fileツールで `SHIDEN_materials_{YYYYMMDD}_{topic}.md` にプロセスと成果物を保存する。保存完了をユーザーに報告する。
+6. 成果物（教材）を先に提示する。
+7. 次に、プロセス全体（指導要領参照結果、理論選定理由、形式選定理由）を表示する。
+8. create_fileツールで `SHIDEN_materials_{YYYYMMDD}_{topic}.md` に成果物とプロセスログを保存する。保存完了をユーザーに報告する。
 
 ## Conditional References
 

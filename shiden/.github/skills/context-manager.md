@@ -6,7 +6,7 @@ description: >
   session defaults matter, or when generated outputs need consistent carry-over.
 metadata:
   author: nahisaho
-  version: "0.5.1"
+  version: "0.5.2"
 ---
 
 # Context Manager

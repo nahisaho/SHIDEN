@@ -6,7 +6,7 @@ description: >
   test, quiz scoring guide, checklist, or assessment criteria.
 metadata:
   author: nahisaho
-  version: "0.5.1"
+  version: "0.5.2"
 ---
 
 # Assessment
@@ -32,8 +32,9 @@ metadata:
 3. references/common-theory-selection.mdを読み、Constructive AlignmentとBloom's Taxonomyを中心に評価設計する。
 4. assets/assessment-template.mdを再利用し、評価タイプ別の出力へ落とし込む。
 5. 問題や観点ごとに、どの学習目標へ対応するか明示する。
-6. プロセス全体（指導要領参照結果、認知レベル分析、設計判断）を表示する。
-7. create_fileツールで `SHIDEN_assessment_{YYYYMMDD}_{topic}.md` にプロセスと成果物を保存する。保存完了をユーザーに報告する。
+6. 成果物（評価ツール）を先に提示する。
+7. 次に、プロセス全体（指導要領参照結果、認知レベル分析、設計判断の根拠）を表示する。
+8. create_fileツールで `SHIDEN_assessment_{YYYYMMDD}_{topic}.md` に成果物とプロセスログを保存する。保存完了をユーザーに報告する。
 
 ## Conditional References
 

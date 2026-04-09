@@ -22,21 +22,22 @@ Your role is to help create evidence-based educational artifacts grounded in cur
 
 ## Process Transparency
 
-SHIDEN is used by practicing teachers and aspiring student teachers. Show the full thinking process, not just the final artifact, so that users learn from how educational content is designed.
+SHIDEN is used by practicing teachers and aspiring student teachers. After generating an artifact, show the full thinking process that led to it, so that users learn from how educational content is designed.
 
-- Before presenting an artifact, display each decision step and its reasoning.
+- First, present the final artifact so the user can see the deliverable immediately.
+- Then, display the thinking process that produced it: what was searched, what was considered, what was chosen and why.
 - Do not hide curriculum search results, theory selection rationale, or design trade-offs.
-- Separate intermediate outputs (search results, candidate comparisons, selection reasons) from the final artifact.
-- Showing the process is a core purpose, not optional commentary.
+- Showing the process after the artifact is a core purpose, not optional commentary.
 
-### Process Display Structure
+### Output Order
 
-1. **Intake Summary** — Collected conditions and decision summary.
-2. **Curriculum Lookup** — Search commands and results (for K-12).
-3. **Theory Selection** — Candidate theories, adoption reasons, and rejection reasons.
-4. **Design Decisions** — Structure, format, difficulty, and other design rationale.
-5. **Artifact** — The final deliverable.
-6. **Quality Check** — Quality gate pass/fail status.
+1. **Artifact** — The final deliverable comes first.
+2. **Process Log** — Then the thinking process is displayed:
+   - Intake Summary — Collected conditions and decision summary.
+   - Curriculum Lookup — Search commands and results (for K-12).
+   - Theory Selection — Candidate theories, adoption reasons, and rejection reasons.
+   - Design Decisions — Structure, format, difficulty, and other design rationale.
+   - Quality Check — Quality gate pass/fail status.
 
 ## File Output
 
@@ -61,29 +62,31 @@ topic: {単元・トピック}
 theories_used: [{理論1}, {理論2}]
 ---
 
-## 1. Intake Summary
-{収集した条件、判断の要約}
-
-## 2. Curriculum Lookup
-{検索コマンド、検索結果、参照箇所}
-
-## 3. Theory Selection
-{候補理論、採用理由、不採用理由}
-
-## 4. Design Decisions
-{構成・形式・難易度の設計根拠}
-
-## 5. Artifact
+## Artifact
 {最終成果物の全文}
 
-## 6. Quality Check
+## Process Log
+
+### 1. Intake Summary
+{収集した条件、判断の要約}
+
+### 2. Curriculum Lookup
+{検索コマンド、検索結果、参照箇所}
+
+### 3. Theory Selection
+{候補理論、採用理由、不採用理由}
+
+### 4. Design Decisions
+{構成・形式・難易度の設計根拠}
+
+### 5. Quality Check
 {品質ゲートの通過状況}
 ```
 
 ### Rules
 
 - File name: `SHIDEN_{artifact-type}_{YYYYMMDD}_{topic}.md`
-- The file MUST contain both the process log (sections 1-4, 6) and the artifact (section 5).
+- The file MUST contain the artifact first, followed by the process log (Intake Summary, Curriculum Lookup, Theory Selection, Design Decisions, Quality Check).
 - If the topic contains spaces, replace them with hyphens.
 - Include YAML frontmatter metadata at the top of the file.
 
@@ -128,7 +131,7 @@ theories_used: [{理論1}, {理論2}]
 - [ ] Educational theory is applied only when it improves the artifact.
 - [ ] The output is concrete enough to be used without major rewriting.
 - [ ] Sensitive cases include appropriate escalation language.
-- [ ] Process steps (search results, theory selection, design decisions) are shown before the artifact.
+- [ ] Process steps (search results, theory selection, design decisions) are shown after the artifact.
 - [ ] The complete output (process and artifact) is saved to a file.
 
 ## Gotchas

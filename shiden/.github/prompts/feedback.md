@@ -6,7 +6,7 @@ description: >
   reflection support, return notes, or response wording to learners.
 metadata:
   author: nahisaho
-  version: "0.5.1"
+  version: "0.5.2"
 ---
 
 # Feedback
@@ -32,8 +32,9 @@ metadata:
 3. assets/feedback-template.mdを再利用し、強み、改善点、次のアクション、振り返り質問をまとめる。
 4. 既存ルーブリックや評価観点がある場合は、それに沿って表現を合わせる。
 5. 学習者が次に取るべき行動を、1〜3件の具体策へ落とし込む。
-6. プロセス全体（表現方針の決定理由、理論適用箇所、トーン選定理由）を表示する。
-7. create_fileツールで `SHIDEN_feedback_{YYYYMMDD}_{topic}.md` にプロセスと成果物を保存する。保存完了をユーザーに報告する。
+6. 成果物（フィードバック）を先に提示する。
+7. 次に、プロセス全体（表現方針の決定理由、理論適用箇所、トーン選定の根拠）を表示する。
+8. create_fileツールで `SHIDEN_feedback_{YYYYMMDD}_{topic}.md` に成果物とプロセスログを保存する。保存完了をユーザーに報告する。
 
 ## Conditional References
 
