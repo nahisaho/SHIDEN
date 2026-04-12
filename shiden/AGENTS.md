@@ -143,6 +143,7 @@ npx shiden curriculum grade "第3学年"
 | オーケストレーション | `orchestrator.md` | スキル選択・連携制御 |
 | 理論検索 | `theory-lookup.md` | 内蔵教育理論データベース連携 |
 | コンテキスト管理 | `context-manager.md` | セッション情報保持 |
+| 設計プロセスログ | `design-process-log.md` | 授業設計の判断プロセス可視化・記録 |
 
 ## スキルルーティング
 
@@ -156,6 +157,7 @@ npx shiden curriculum grade "第3学年"
 | 個別指導, 配慮, 支援 | `individual.md` |
 | フィードバック, 振り返り, コメント | `feedback.md` |
 | 生活指導, 行動, 相談 | `guidance.md` |
+| 設計記録, プロセス可視化, 設計ログ, 判断記録 | `design-process-log.md` |
 
 ### 意図が不明な場合
 
@@ -169,6 +171,7 @@ npx shiden curriculum grade "第3学年"
 4. 👤 個別指導計画
 5. 💬 フィードバック・振り返り
 6. 🤝 生活指導案
+7. 📋 設計プロセスの記録・可視化
 
 番号または内容でお答えください。
 ```

@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-04-13
+
+### Added
+
+- 🆕 **design-process-log スキルを追加**
+  - 授業設計のプロセスを第三者が再現・検証可能な形式で詳細記録
+  - 採用理論と不採用理論の両方を根拠とともに記録（省略禁止）
+  - 確定情報と推測情報の明示的な区別
+  - Mermaid図による設計フロー可視化
+  - Quality Gates + Validation Loopによる品質保証
+  - assets/design-log-template.md を追加
+
+- 📋 **AGENTS.mdのルーティングテーブルを拡張**
+  - 「設計記録, プロセス可視化, 設計ログ, 判断記録」キーワードで design-process-log.md にルーティング
+  - 意図確認メニューに「📋 設計プロセスの記録・可視化」オプションを追加
+
 ## [0.5.2] - 2026-04-10
 
 ### Changed
